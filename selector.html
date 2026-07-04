@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>解膠選擇器 | 丰泰技研股份有限公司 - 智慧推薦無損解UV膠劑型</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="使用丰泰解UV膠劑智慧選擇器。依據膠體化學種類、知名膠水品牌、或撬起硬度，獲得推薦的丰泰解膠劑（L0-Gen-1 至 LC0-Gen-5）與標準排除實驗流程 SOP。">
+  <meta name="keywords" content="解膠選擇器, 排除法SOP, UV膠溶解, Norland NOA, 樂泰解膠, 環氧樹脂拆解">
+  <meta name="author" content="丰泰技研股份有限公司">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2L2 22h20L12 2zm0 4l6.5 13H5.5L12 6z' fill='%230ea5e9'/%3E%3C/svg%3E">
+
+  <!-- Core CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       Header & Navigation
+       ========================================================================== -->
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="logo" id="nav-logo">
+        <div class="logo-icon">丰</div>
+        <div class="logo-text">
+          丰泰技研
+          <span>Fort RDTech</span>
+        </div>
+      </a>
+      
+      <nav class="nav-menu" id="nav-menu">
+        <a href="about.html" class="nav-link" id="link-about">關於我們</a>
+        <a href="services.html" class="nav-link" id="link-services">技術與服務</a>
+        <a href="selector.html" class="nav-link" id="link-selector">解膠選擇器</a>
+        <a href="science.html" class="nav-link" id="link-science">科普文章</a>
+        <a href="portfolio.html" class="nav-link" id="link-portfolio">產品成果</a>
+        <a href="contact.html" class="nav-link" id="link-contact">聯絡我們</a>
+      </nav>
+      
+      <div class="nav-cta">
+        <a href="contact.html" class="btn btn-primary" id="btn-nav-cta">諮詢方案</a>
+      </div>
+      
+      <button class="hamburger" id="nav-hamburger" aria-label="Toggle Navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       Inner Page Hero Section
+       ========================================================================== -->
+  <section style="background: linear-gradient(135deg, var(--sky-blue-light) 0%, var(--bg-primary) 100%); padding: 120px 24px 60px; text-align: center; border-bottom: 1px solid var(--border-light);">
+    <div class="container" style="max-width: 800px;">
+      <div class="section-tag">DECURED SELECTOR</div>
+      <h1 style="font-size: 2.8rem; font-weight: 800; margin-bottom: 16px; color: var(--text-main);">解UV膠劑智慧選擇器</h1>
+      <p style="font-size: 1.15rem; color: var(--text-muted); line-height: 1.6;">本工具將引導您透過 4 個層級步驟，依據您的專業了解程度，推薦適合的丰泰解膠劑型（L0-Gen-1 ~ LC0-Gen-5）與標準操作 SOP。</p>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       UV Selector Section (Interactive Tool)
+       ========================================================================== -->
+  <section class="selector" id="selector" style="background-color: var(--bg-primary); padding: 80px 24px;">
+    <div class="container">
+      <div class="selector-panel">
+        <!-- Left: Stepper Navigation -->
+        <div class="selector-steps-container">
+          <h3 style="font-weight: 800; font-size: 1.5rem; margin-bottom: 24px; color: var(--text-main);">
+            <i class="fa-solid fa-compass" style="color: var(--sky-blue); margin-right: 8px;"></i> 判斷層級
+          </h3>
+          
+          <div class="selector-nav">
+            <div class="selector-nav-item active" data-step="1">
+              <span class="selector-nav-num">1</span>
+              <div>
+                Level 1: 膠體化學種類
+                <span style="display: block; font-size: 0.75rem; font-weight: 500; color: var(--text-light); margin-top: 2px;">適合具備化學背景的專業客戶</span>
+              </div>
+            </div>
+            <div class="selector-nav-item" data-step="2">
+              <span class="selector-nav-num">2</span>
+              <div>
+                Level 2: 膠體類似品牌
+                <span style="display: block; font-size: 0.75rem; font-weight: 500; color: var(--text-light); margin-top: 2px;">適合已知原有膠水型號的客戶</span>
+              </div>
+            </div>
+            <div class="selector-nav-item" data-step="3">
+              <span class="selector-nav-num">3</span>
+              <div>
+                Level 3: 膠體硬化硬度
+                <span style="display: block; font-size: 0.75rem; font-weight: 500; color: var(--text-light); margin-top: 2px;">適合藉由物理撬起檢測的客戶</span>
+              </div>
+            </div>
+            <div class="selector-nav-item" data-step="4">
+              <span class="selector-nav-num">4</span>
+              <div>
+                Level 4: 標準測試包 SOP
+                <span style="display: block; font-size: 0.75rem; font-weight: 500; color: var(--text-light); margin-top: 2px;">若上述皆無法分辨，進行排除排除實驗</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Right: Active Step Panel -->
+        <div class="selector-content-area">
+          <!-- Step 1: By Type -->
+          <div class="selector-step-content active" id="step-panel-1">
+            <h4 style="margin-bottom: 12px;">Level 1：您是否知道待處理膠體的【化學種類】？</h4>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 24px;">若您具備化學背景，或規格書上有標註膠體分子結構，請在下方選擇：</p>
+            <div class="option-grid">
+              <div class="option-card" data-value="urethane">
+                <div class="option-circle"></div>
+                尿素與丙烯酸酯/聚氨酯壓克力 (Urethanes Acrylate)
+              </div>
+              <div class="option-card" data-value="metha">
+                <div class="option-circle"></div>
+                甲基丙烯酸酯/甲基壓克力 (Metha-acrylate)
+              </div>
+              <div class="option-card" data-value="epoxy-pure">
+                <div class="option-circle"></div>
+                Epoxy基 - 環氧樹脂 (無填充)
+              </div>
+              <div class="option-card" data-value="epoxy-sio2">
+                <div class="option-circle"></div>
+                Epoxy基 - 二氧化矽填充膠 (SiO2 Filled)
+              </div>
+            </div>
+            
+            <!-- Conditional Question for Epoxy-SiO2 -->
+            <div class="heat-question" style="display: none; margin-top: 24px; border-top: 1px solid var(--border-light); padding-top: 20px;">
+              <h4 style="font-size: 1.1rem; color: var(--text-main); margin-bottom: 12px;">確認環境耐溫性：周遭基材與零件是否能耐受 100°C 高溫？</h4>
+              <div class="option-grid" style="grid-template-columns: 1fr 1fr;">
+                <div class="option-card heat-option" data-heat="yes">
+                  <div class="option-circle"></div>
+                  耐溫 100°C 以上 (推薦高溫水浴 L0-Gen-4)
+                </div>
+                <div class="option-card heat-option" data-heat="no">
+                  <div class="option-circle"></div>
+                  不耐高溫 (推薦局部防滴 LC0-Gen-5)
+                </div>
+              </div>
+            </div>
+            
+            <div class="step-nav-buttons" style="margin-top: 30px; display: flex; justify-content: flex-end;">
+              <button type="button" class="btn btn-secondary next-step-btn" data-next="2" onclick="if(window.goToUVStep) window.goToUVStep(2);">
+                我不知道膠體種類，前往下一步 <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Step 2: By Brand -->
+          <div class="selector-step-content" id="step-panel-2">
+            <h4 style="margin-bottom: 12px;">Level 2：您是否知道膠體的【品牌或型號】？</h4>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 24px;">若您手邊有原有膠水包裝，或知悉其製造商品牌，請在下方選擇：</p>
+            <div class="option-grid">
+              <div class="option-card" data-value="noa65">
+                <div class="option-circle"></div>
+                Norland Products NOA 65 (純光固化)
+              </div>
+              <div class="option-card" data-value="noa72">
+                <div class="option-circle"></div>
+                Norland Products NOA 72 (純光固化)
+              </div>
+              <div class="option-card" data-value="epotek">
+                <div class="option-circle"></div>
+                Epoxy Technology EPO-TEK® HYB-353ND
+              </div>
+              <div class="option-card" data-value="loctite">
+                <div class="option-circle"></div>
+                LOCTITE® EA-3335 (先光固化，後熱固化)
+              </div>
+              <div class="option-card" data-value="dexerials">
+                <div class="option-circle"></div>
+                Dexerials JD23A020 (先光固化，後熱固化)
+              </div>
+              <div class="option-card" data-value="water-glue">
+                <div class="option-circle"></div>
+                水精 JE-526-1 (先光固化，後熱固化)
+              </div>
+              <div class="option-card" data-value="optocast">
+                <div class="option-circle"></div>
+                EMIUV OPTOCAST 3410 Gen2 (含 SiO2 二氧化矽球)
+              </div>
+            </div>
+            
+            <!-- Conditional Question for Brand (heat/no-heat) -->
+            <div class="heat-question" style="display: none; margin-top: 24px; border-top: 1px solid var(--border-light); padding-top: 20px;">
+              <h4 style="font-size: 1.1rem; color: var(--text-main); margin-bottom: 12px;">確認環境耐溫性：周遭基材與零件是否能耐受 100°C 高溫？</h4>
+              <div class="option-grid" style="grid-template-columns: 1fr 1fr;">
+                <div class="option-card heat-option" data-heat="yes">
+                  <div class="option-circle"></div>
+                  耐溫 100°C 以上 (推薦高溫水浴 L0-Gen-4)
+                </div>
+                <div class="option-card heat-option" data-heat="no">
+                  <div class="option-circle"></div>
+                  不耐高溫 (推薦局部防滴 LC0-Gen-5)
+                </div>
+              </div>
+            </div>
+            
+            <div class="step-nav-buttons" style="margin-top: 30px; display: flex; justify-content: space-between;">
+              <button type="button" class="btn btn-secondary prev-step-btn" data-prev="1" onclick="if(window.goToUVStep) window.goToUVStep(1);">
+                <i class="fa-solid fa-arrow-left"></i> 上一步
+              </button>
+              <button type="button" class="btn btn-secondary next-step-btn" data-next="3" onclick="if(window.goToUVStep) window.goToUVStep(3);">
+                我不知道膠水品牌，前往下一步 <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Step 3: By Hardness -->
+          <div class="selector-step-content" id="step-panel-3">
+            <h4 style="margin-bottom: 12px;">Level 3：請使用大頭針針尖撬已固化膠體，分辨【硬度與觸感】</h4>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 24px;">用針尖在膠體表面施力，觀察膠體的回彈與質地：</p>
+            <div class="option-grid">
+              <div class="option-card" data-value="soft">
+                <div class="option-circle"></div>
+                <div><strong>軟質</strong> <span style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">針尖可輕易壓入，撬起感類似軟塑料墊，略具彈性</span></div>
+              </div>
+              <div class="option-card" data-value="semi-hard">
+                <div class="option-circle"></div>
+                <div><strong>半硬質</strong> <span style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">針尖施力可留痕跡，撬起感類似塑膠名片盒，稍微變形才斷裂</span></div>
+              </div>
+              <div class="option-card" data-value="hard">
+                <div class="option-circle"></div>
+                <div><strong>硬質</strong> <span style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">針尖難以壓入，撬起感類似護目鏡防護面罩，非常堅硬</span></div>
+              </div>
+              <div class="option-card" data-value="extremely-hard">
+                <div class="option-circle"></div>
+                <div><strong>極硬質</strong> <span style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">針尖完全滑落，微撬即碎，硬度與回彈感類似光學玻璃</span></div>
+              </div>
+            </div>
+            
+            <!-- Conditional Question for Hardness (heat/no-heat) -->
+            <div class="heat-question" style="display: none; margin-top: 24px; border-top: 1px solid var(--border-light); padding-top: 20px;">
+              <h4 style="font-size: 1.1rem; color: var(--text-main); margin-bottom: 12px;">確認環境耐溫性：周遭基材與零件是否能耐受 100°C 高溫？</h4>
+              <div class="option-grid" style="grid-template-columns: 1fr 1fr;">
+                <div class="option-card heat-option" data-heat="yes">
+                  <div class="option-circle"></div>
+                  耐溫 100°C 以上 (推薦高溫水浴 L0-Gen-4)
+                </div>
+                <div class="option-card heat-option" data-heat="no">
+                  <div class="option-circle"></div>
+                  不耐高溫 (推薦局部防滴 LC0-Gen-5)
+                </div>
+              </div>
+            </div>
+            
+            <div class="step-nav-buttons" style="margin-top: 30px; display: flex; justify-content: space-between;">
+              <button type="button" class="btn btn-secondary prev-step-btn" data-prev="2" onclick="if(window.goToUVStep) window.goToUVStep(2);">
+                <i class="fa-solid fa-arrow-left"></i> 上一步
+              </button>
+              <button type="button" class="btn btn-secondary next-step-btn" data-next="4" onclick="if(window.goToUVStep) window.goToUVStep(4);">
+                我也分不出來硬度，進入第四步 <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Step 4: Test Kit SOP -->
+          <div class="selector-step-content" id="step-panel-4">
+            <h4 style="margin-bottom: 12px;">Level 4：無法判斷種類與硬度？使用【標準測試包】</h4>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 24px;">
+              別擔心！丰泰技研提供標準排除實驗測試包。請依照以下 SOP 循序進行排除實驗，即可精準找出已固化膠體的適用配方：
+            </p>
+            
+            <div class="result-steps-list" style="margin-bottom: 30px;">
+              <div class="result-step-item">
+                <span class="result-step-idx" style="background-color: var(--plant-green-light); color: var(--plant-green-hover);">1</span>
+                <div>
+                  <strong>樣件物理還原與前處理</strong>
+                  <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">清除樣件表面雜物，還原至物理初始狀態（例如 CIS 機板上的 FPC 貼片）。</p>
+                </div>
+              </div>
+              <div class="result-step-item">
+                <span class="result-step-idx" style="background-color: var(--plant-green-light); color: var(--plant-green-hover);">2</span>
+                <div>
+                  <strong>排除測試一：浸入 L0-Gen-1 瓶中</strong>
+                  <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">將樣件浸入 <strong>L0-Gen-1</strong> 瓶內液面下，室溫靜置 <strong>0.5 至 2 小時</strong>。若膠體弱化可輕鬆撬出，即表示該膠體高機率為 <strong>聚氨酯壓克力</strong>，後續以 Gen-1 處理即可。</p>
+                </div>
+              </div>
+              <div class="result-step-item">
+                <span class="result-step-idx" style="background-color: var(--plant-green-light); color: var(--plant-green-hover);">3</span>
+                <div>
+                  <strong>排除測試二：浸入 L0-Gen-2 瓶中 (加溫)</strong>
+                  <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">若上一步無反應，將新樣件浸入 <strong>L0-Gen-2</strong> 瓶中，蓋緊蓋子，在 <strong>40°C - 60°C 的水浴</strong>中加溫靜置 <strong>2 至 6 小時</strong>。若可解，表示該膠體高機率為 <strong>甲基壓克力</strong>。</p>
+                </div>
+              </div>
+              <div class="result-step-item">
+                <span class="result-step-idx" style="background-color: var(--plant-green-light); color: var(--plant-green-hover);">4</span>
+                <div>
+                  <strong>排除測試三：浸入 L0-Gen-3 瓶中 (加溫)</strong>
+                  <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">若仍無效，將樣件浸入 <strong>L0-Gen-3</strong> 瓶中，鎖緊蓋子，於 <strong>50°C - 80°C 水浴</strong>中加溫靜置 <strong>4 至 16 小時</strong>。若可解，則高機率為 <strong>環氧樹脂 (無填充)</strong>。（注意：有可能傷害 PC 基材表面）</p>
+                </div>
+              </div>
+              <div class="result-step-item">
+                <span class="result-step-idx" style="background-color: var(--plant-green-light); color: var(--plant-green-hover);">5</span>
+                <div>
+                  <strong>排除測試四：高難度二氧化矽填充膠測試</strong>
+                  <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">若上述皆不可解，膠體屬於極硬的 Epoxy/SiO₂ 填充膠。此時依周遭耐溫性選擇：<br>
+                  • <strong>周遭可耐溫 100°C</strong>：浸入 <strong>L0-Gen-4</strong> 瓶中，蓋緊，<strong>80°C - 100°C 水浴 24-96 小時</strong>。<br>
+                  • <strong>周遭不耐高溫</strong>：將 <strong>LC0-Gen-5 半透明防滴膏</strong> 塗佈於局部，蓋緊蓋子，於 <strong>10°C - 100°C 水浴或烘烤 24-96 小時</strong>。
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="result-warning" style="margin-bottom: 24px;">
+              <i class="fa-solid fa-box-open" style="color: var(--plant-green); font-size: 1.2rem;"></i>
+              <div>
+                <strong>丰泰標準解膠測試包規格：</strong> 內含 L0-Gen-1 至 L0-Gen-4 瓶裝溶劑各 100ml，LC0-Gen-5 防滴膏 50g，及專用清洗劑 Gen-0。歡迎聯絡我們申請索取或打樣測試。
+              </div>
+            </div>
+            
+            <div class="step-nav-buttons" style="display: flex; justify-content: flex-start; gap: 12px;">
+              <button type="button" class="btn btn-secondary prev-step-btn" data-prev="3" onclick="if(window.goToUVStep) window.goToUVStep(3);">
+                <i class="fa-solid fa-arrow-left"></i> 上一步
+              </button>
+              <a href="contact.html" class="btn btn-green">
+                <i class="fa-solid fa-file-signature"></i> 申請樣品與測試包
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Result output panel -->
+      <div class="result-panel" style="margin-top: 30px;">
+        <div class="result-placeholder">
+          <div class="result-placeholder-icon">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+          </div>
+          <h3 style="font-weight: 700; color: var(--text-main); margin-bottom: 8px;">等待分析中</h3>
+          <p>請於上方點選對應種類、品牌或硬度，我們將即時為您運算最適合的無損解膠方案與配方步驟。</p>
+        </div>
+        
+        <div class="result-data">
+          <div class="result-header">
+            <span class="result-badge" id="res-badge">1.0-Gen-1 微乳膏型</span>
+            <h3 class="result-title" id="res-title">L0-Gen-1 微乳膏型解膠劑</h3>
+            <p class="result-subtitle">最佳建議配方</p>
+          </div>
+          
+          <div class="result-steps-title">
+            <i class="fa-solid fa-circle-play"></i> 標準測試包標準作業流程 (SOP)
+          </div>
+          
+          <div class="result-steps-list" id="res-steps">
+            <!-- Rendered dynamically -->
+          </div>
+          
+          <div class="result-warning">
+            <i class="fa-solid fa-circle-info"></i>
+            <div id="res-warning-text">安全警示：不含氟氯，不傷光學玻片。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       Footer
+       ========================================================================== -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">丰</div>
+          <div class="logo-text">丰泰技研</div>
+        </a>
+        <p class="footer-brand-desc">
+          丰泰技研股份有限公司 (Fort RDTech Co., Ltd.) 致力於利用現代前沿科技，賦能傳統農業升級，並研發安全無損的特用化學品，實踐環境永續與循環綠色未來。
+        </p>
+      </div>
+      
+      <div class="footer-col">
+        <h4>快速連結</h4>
+        <ul class="footer-links">
+          <li><a href="about.html" class="footer-link">關於我們</a></li>
+          <li><a href="services.html" class="footer-link">核心技術</a></li>
+          <li><a href="selector.html" class="footer-link">解膠選擇器</a></li>
+          <li><a href="science.html" class="footer-link">科普學堂</a></li>
+          <li><a href="portfolio.html" class="footer-link">產品成果</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-col">
+        <h4>聯絡資訊</h4>
+        <ul class="footer-links">
+          <li class="footer-link"><i class="fa-solid fa-envelope" style="margin-right: 6px;"></i> service@fortrdtech.com.tw</li>
+          <li class="footer-link"><i class="fa-solid fa-phone" style="margin-right: 6px;"></i> +886-2-2789-XXXX</li>
+          <li class="footer-link"><i class="fa-solid fa-location-dot" style="margin-right: 6px;"></i> 台灣台北市南港區研究院路</li>
+        </ul>
+      </div>
+      
+      <div class="footer-col">
+        <h4>訂閱技術動態</h4>
+        <p class="footer-brand-desc" style="margin-top: 0; margin-bottom: 12px; font-size: 0.85rem;">我們將定期與您分享最新的農業科技化材與無損解膠製程的最新研究進展。</p>
+        <form class="newsletter-form" onsubmit="event.preventDefault(); alert('感謝您的訂閱！'); this.reset();">
+          <input class="newsletter-input" type="email" placeholder="您的 Email 地址" required>
+          <button type="submit" class="btn btn-primary" style="padding: 10px 16px; border-radius: 8px;"><i class="fa-solid fa-chevron-right"></i></button>
+        </form>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2026 丰泰技研股份有限公司 Fort RDTech Co., Ltd. 版權所有.</p>
+      <div style="display: flex; gap: 20px;">
+        <a href="#" class="footer-link" style="font-size: 0.8rem;">隱私權政策</a>
+        <a href="#" class="footer-link" style="font-size: 0.8rem;">服務條款</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Core JavaScript -->
+  <script src="js/main.js"></script>
+</body>
+</html>

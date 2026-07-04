@@ -540,12 +540,43 @@ function initContactForm() {
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 傳送中...';
 
-    setTimeout(() => {
-      showMessage('感謝您的來信！我們已收到您的諮詢，丰泰技研的專員將於 24 小時內與您聯繫。', 'success');
-      form.reset();
+    // Form data to submit to Web3Forms
+    const formData = {
+      access_key: 'YOUR_WEB3FORMS_ACCESS_KEY_HERE', // User will replace this with their Web3Forms key
+      name: name,
+      email: email,
+      phone: phone || '未提供',
+      subject: `[丰泰官網諮詢] ${subject}`,
+      message: message,
+      from_name: '丰泰技研官方網站'
+    };
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+    .then(async (response) => {
+      let json = await response.json();
+      if (response.status === 200) {
+        showMessage('感謝您的來信！我們已收到您的諮詢，丰泰技研的專員將於 24 小時內與您聯繫。', 'success');
+        form.reset();
+      } else {
+        console.error(json);
+        showMessage(json.message || '傳送失敗，請稍後再試，或直接以 Email 聯絡我們。', 'error');
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      showMessage('連線發生錯誤，請稍後再試，或直接以 Email 聯絡我們。', 'error');
+    })
+    .then(() => {
       submitBtn.disabled = false;
       submitBtn.innerHTML = originalBtnText;
-    }, 1500);
+    });
   });
 
   function isValidEmail(email) {

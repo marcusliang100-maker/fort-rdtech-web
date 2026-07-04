@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.querySelector('.selector-panel')) {
     initUVSelector();
   }
-  if (document.querySelector('.science-read-more') || document.querySelector('.portfolio-item')) {
+  if (document.querySelector('.science-read-more')) {
     initScienceModal();
   }
   if (document.getElementById('contact-form')) {
@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   if (document.querySelector('.filter-btn')) {
     initPortfolioFilters();
+  }
+  if (document.getElementById('product-detail-main')) {
+    initProductDetail();
   }
 });
 
@@ -450,7 +453,6 @@ const SCIENCE_ARTICLES = {
 
 function initScienceModal() {
   const readMoreBtns = document.querySelectorAll('.science-read-more');
-  const portfolioItems = document.querySelectorAll('.portfolio-item');
   const modalOverlay = document.getElementById('modal-overlay');
   const modalCloseBtn = document.getElementById('modal-close-btn');
   const modalHeaderImg = document.getElementById('modal-img-area');
@@ -470,83 +472,6 @@ function initScienceModal() {
       if (article) {
         openModal(article.category, article.title, article.content, article.colorClass, article.svgIcon);
       }
-    });
-  });
-
-  // Open modal for portfolio projects (Showcase detailed product specs)
-  portfolioItems.forEach(item => {
-    item.addEventListener('click', () => {
-      const title = item.querySelector('.portfolio-title').textContent;
-      const category = item.querySelector('.portfolio-category').textContent;
-      const desc = item.querySelector('.portfolio-desc').textContent;
-      const cateClass = item.classList.contains('cate-agri') ? 'color-2' : (item.classList.contains('cate-chem') ? 'color-3' : 'color-1');
-      const svgIcon = item.querySelector('.portfolio-img-wrapper').innerHTML;
-      
-      let detailedContent = `<p>${desc}</p>`;
-      
-      if (title.includes('影像分析儀')) {
-        detailedContent += `
-          <h3>技術規格與優勢</h3>
-          <ul>
-            <li><strong>量測時間</strong>：&le; 0.5 秒 / 顆，可無縫對接主流選果生產線。</li>
-            <li><strong>糖度精準度</strong>：相對誤差 &le; &plusmn; 0.5°Brix。</li>
-            <li><strong>檢測光學波段</strong>：近紅外穿透光譜 (700nm - 1050nm) + 可見光多光譜相機。</li>
-            <li><strong>AI 瑕疵偵測</strong>：支持蘋果水心病、柑橘浮皮、梨子黑心、水蜜桃內部褐化檢測。</li>
-          </ul>
-          <h3>應用場景</h3>
-          <p>適合大型農業合作社、外銷果菜包裝場、生鮮截切廠與連鎖超商採購檢驗。搭配自動化分級輸送帶，實現全天候高效品管。</p>
-        `;
-      } else if (title.includes('光合作用')) {
-        detailedContent += `
-          <h3>技術規格與優勢</h3>
-          <ul>
-            <li><strong>核心成分</strong>：複合有機金屬配位螯合物、誘導型小分子有機酸、微量元素 (Fe, Mg, Zn)。</li>
-            <li><strong>作用機制</strong>：優化葉綠體捕光複合物，提高暗反應 Rubisco 催化活性，降低高溫光呼吸損耗。</li>
-            <li><strong>適用作物</strong>：溫室番茄、草莓、瓜果類、茶樹、精緻葉菜。</li>
-            <li><strong>使用方法</strong>：稀釋 800 - 1000 倍進行葉面噴施，於作物生長期每 7 - 14 天施用一次。</li>
-          </ul>
-          <h3>實證效益</h3>
-          <p>提高葉片 SPAD 值（葉綠素相對含量），平均增產 15% - 30%，提早收穫 5 - 7 天，並提升耐陰與抗寒等抗逆境能力。</p>
-        `;
-      } else if (title.includes('抗黴保護劑')) {
-        detailedContent += `
-          <h3>技術規格與優勢</h3>
-          <ul>
-            <li><strong>核心成分</strong>：天然植物精油多醣複合物、食用級安全抑菌因子。</li>
-            <li><strong>防護機制</strong>：在截切蔬菜或水果表面形成奈米級半透膜屏障，隔絕外源黴菌孢子侵入，並延緩呼吸作用。</li>
-            <li><strong>抑菌效果</strong>：針對灰黴菌、青黴菌、根黴菌具有 99.9% 抑制效果。</li>
-            <li><strong>安全性</strong>：100% 食品級無毒，無化學殘留，免水洗直接食用。</li>
-          </ul>
-          <h3>應用場景</h3>
-          <p>鮮食截切廠（沙拉拼盤、即食水果盒）、超市生鮮包裝、連鎖餐飲食材前處理，可將冷鏈貨架壽命自 2-3 天顯著延長至 5-7 天。</p>
-        `;
-      } else if (title.includes('解 UV')) {
-        detailedContent += `
-          <h3>產品家族與應用對照</h3>
-          <p>本系列專為精密光學玻璃、半導體封裝（如 Bonding Wire / BGA）及感測器載板等高價值組件設計，實現綠色、安全、無損的重工與回收。</p>
-          <ul>
-            <li><strong>L0-Gen-1</strong>：針對聚氨酯壓克力系 UV 膠。室溫浸泡 0.5-2 小時即可剝離，完全不傷光學玻片。</li>
-            <li><strong>L0-Gen-2</strong>：針對甲基丙烯酸酯系 UV 膠。40-60°C 水浴浸泡 2-6 小時。</li>
-            <li><strong>L0-Gen-3</strong>：針對環氧樹脂系 UV 膠。50-80°C 水浴浸泡 4-16 小時（對 PC 表面有輕微溶脹風險，需注意）。</li>
-            <li><strong>L0-Gen-4 / LC0-Gen-5</strong>：針對高度緻密的 Epoxy/SiO2 填充膠。提供 80-100°C 高溫水浴浸泡劑 (Gen-4) 或局部垂直塗佈防滴膏 (Gen-5)，反應 24-96 小時。</li>
-          </ul>
-          <p><em>※ 詳情與操作請前往本站「解膠選擇器」頁面。</em></p>
-        `;
-      } else if (title.includes('熱固膠劑')) {
-        detailedContent += `
-          <h3>技術規格與優勢</h3>
-          <ul>
-            <li><strong>適用對象</strong>：雙劑型環氧樹脂、熱固化型結構膠、灌封用矽膠與聚氨酯結構膠。</li>
-            <li><strong>運作機制</strong>：在中高溫環境下活化，破壞環氧樹脂緊密固化的三維醚鍵/酯鍵交聯點，使其產生高度膨潤並失去附著力。</li>
-            <li><strong>基材安全性</strong>：不腐蝕銅、鋁、矽片、金質導線與光學玻璃。對 PC (聚碳酸酯) 有輕微溶脹性，施作時請避開 PC 殼體。</li>
-            <li><strong>綠色指標</strong>：無氯、無酚、低 VOC、符合歐盟 RoHS 與 REACH 環保法規。</li>
-          </ul>
-          <h3>應用場景</h3>
-          <p>高階晶片 BGA 封裝重工、軍工及航太電子線路板灌封膠清理、光學鏡頭模組熱固密封膠移除。</p>
-        `;
-      }
-
-      openModal(category, title, detailedContent, cateClass, svgIcon);
     });
   });
 
@@ -667,4 +592,222 @@ function initPortfolioFilters() {
       });
     });
   });
+}
+
+/* ==========================================================================
+   Product Detail & Case Studies Page Logic
+   ========================================================================== */
+const PRODUCT_DETAIL_DATA = {
+  'agri-analyzer': {
+    title: '蔬果品質影像分析儀',
+    category: '智慧農業科技',
+    categoryClass: 'badge-agri',
+    icon: '<i class="fa-solid fa-crop-simple"></i>',
+    desc: '專為大型選果生產線設計，結合近紅外光譜（NIRS）與邊緣 AI 深度學習。可在 0.5 秒內完成蔬果水分、糖酸比之無損檢測，並自動識別內部黑心、水傷等隱形缺陷。',
+    specs: [
+      { label: '量測時間', value: '≤ 0.5 秒 / 顆' },
+      { label: '糖度誤差', value: '≤ ±0.5°Brix' },
+      { label: '檢測波段', value: '近紅外 (700nm - 1050nm)' },
+      { label: '缺陷識別率', value: '98.5%' }
+    ],
+    cases: [
+      {
+        company: '台中東勢某高階水梨出口合作社',
+        tag: '外銷品管升級',
+        challenge: '高價水梨（新興梨、豐水梨）極易發生內部「褐心病」（黑心），但其外觀完全完好，傳統人工肉眼無法檢測，導致出口貨櫃抵達日本與新加坡後因黑心遭大量退貨，退貨率曾高達 8% 且重創品牌信譽。',
+        solution: '導入丰泰「蔬果品質影像分析儀」於選果包裝線。分選系統發射近紅外穿透光譜，透視水梨內部細胞結構，即時計算內部水分分佈與果肉健康度，自動分流病變果。',
+        result: '水梨出口退貨率成功由 8% 降至 0.2% 以下；因品管精確，特級水梨的出口定價提升 25%，年盈餘增加數百萬台幣，成功維護臺灣高檔水果的國際形象。'
+      }
+    ]
+  },
+  'photo-promoter': {
+    title: '光合作用促進劑肥料',
+    category: '農業化材',
+    categoryClass: 'badge-chem',
+    icon: '<i class="fa-solid fa-flask"></i>',
+    desc: '新型有機金屬配位螯合物，暫時性調整植物細胞微環境並擴大捕光範圍，大幅提升暗反應 Rubisco 碳固定酶活性，打破作物自然生理光效限制，達到低光照下依然增產之成效。',
+    specs: [
+      { label: '核心成分', value: '複合有機金屬配位螯合物' },
+      { label: '施作方法', value: '稀釋 800 - 1000 倍葉面噴施' },
+      { label: '適用作物', value: '高架草莓、溫室番茄、精緻茶葉' },
+      { label: '增產成效', value: '平均產量提升 18% - 30%' }
+    ],
+    cases: [
+      {
+        company: '南投草屯高架草莓溫室農場',
+        tag: '冬季逆境增產',
+        challenge: '草莓產季適逢冬季，臺灣北部與中部常因連日陰雨、散射光弱，導致溫室草莓光合作用受阻，植株弱化、花芽發育不良，著果率極低，產量大幅下滑。',
+        solution: '於草莓苗期及開花期，每隔 10 天噴灑一次丰泰「光合作用促進劑肥料」1000倍稀釋液，增強葉綠體在弱光下的光子捕捉效率並活化固碳暗反應。',
+        result: '草莓葉片 SPAD 值（葉綠素含量）提升 22%；在冬季低溫陰雨環境下，草莓單株產量增長 28%，果實糖度平均提高 1.5 度，且提早 5 貼採收上市，搶佔高價市場。'
+      }
+    ]
+  },
+  'anti-mold': {
+    title: '截切抗黴保護劑',
+    category: '農業化材',
+    categoryClass: 'badge-chem',
+    icon: '<i class="fa-solid fa-shield-halved"></i>',
+    desc: '採用食品級天然多醣與抑菌植物精油的微乳保護劑，在截切蔬菜或水果切口形成奈米級保護阻菌半透膜，阻絕灰黴菌與青黴菌侵入，顯著延緩切口氧化與變色。',
+    specs: [
+      { label: '安全級別', value: '100% 食品級安全無毒' },
+      { label: '抑菌效率', value: '灰黴菌抑制率 ≥ 99.9%' },
+      { label: '貨架壽命', value: '冷鏈下延長至 5 - 7 天' },
+      { label: '食用方式', value: '免洗，可直接食用' }
+    ],
+    cases: [
+      {
+        company: '桃園生鮮沙拉截切加工廠',
+        tag: '保鮮期倍增',
+        challenge: '該廠主要供應北部各大超商即食水果盒與沙拉盒。蔬果截切後，切口處水分充沛且細胞受損，極易滋生黴菌，導致貨架壽命僅有 2-3 天，通路報廢率高達 15%。',
+        solution: '導入丰泰「截切抗黴保護劑」，在截切加工的最後清洗步驟後，以微細霧化噴灑於切口表面，自然風乾形成奈米保護層。',
+        result: '超商沙拉盒與即食水果盒在 4°C 冷鏈下的保鮮期由原本的 3 天成功延長至 6 天，通路報廢率降低了 50% 以上，為加工廠與超商通路省下大筆耗損成本。'
+      }
+    ]
+  },
+  'uv-solvent': {
+    title: '安全無損解 UV 膠劑',
+    category: '永續材料與化學品',
+    categoryClass: 'badge-material',
+    icon: '<i class="fa-solid fa-cubes"></i>',
+    desc: '以溫和溶脹與界面斷鍵機制，滲透高度交聯之紫外光固化高分子網格。無氟無氯低揮發，專為精密光學鏡片重工與 CIS 感測板回收設計，不傷 PC 塑膠底板與敏感鍍膜。',
+    specs: [
+      { label: '適用膠體', value: 'NOA 65/72 等聚氨酯壓克力系 UV 膠' },
+      { label: '反應機制', value: '物理溶脹與界面化學剝離' },
+      { label: '基材安全性', value: '不傷光學玻璃、金導線、PC' },
+      { label: '環保認證', value: 'RoHS, REACH 100% 符合' }
+    ],
+    cases: [
+      {
+        company: '新竹某知名手機相機鏡頭模組廠',
+        tag: '精密光學無損重工',
+        challenge: '鏡頭模組在進行 UV 膠紫外光固化貼合時，若因機械偏位導致貼合誤差，該組鏡片便判定為瑕疵。過去使用強鹼或二氯甲烷嘗試清除膠體，常導致高單價光學鏡片上的增透鍍膜剝落，或 PC 基板溶脹變形發白，無法進行重工，只能整組報廢。',
+        solution: '導入丰泰「安全無損解 UV 膠劑 L0-Gen-1/Gen-2」。將瑕疵模組浸泡於解膠劑中，利用化學溶脹原理使 UV 膠弱化並成片脫落，隨後用專用清洗劑清洗。',
+        result: '模組上的光學增透鍍膜與 PC 殼體 100% 完好無損，重工合格率（Yield）從 0% 提升至 99.2% 以上，大幅救回高單價鏡頭元件，顯著降低原料耗損。'
+      }
+    ]
+  },
+  'heat-solvent': {
+    title: '安全無損解熱固膠劑',
+    category: '永續材料與化學品',
+    categoryClass: 'badge-material',
+    icon: '<i class="fa-solid fa-recycle"></i>',
+    desc: '熱活化特用溶劑配方，可切入雙劑環氧樹脂等熱固性膠體之緻密醚鍵交聯網格，使其軟化膨潤並喪失附著力，適用於 BGA 封裝晶片重工與軍工封膠線路板完好拆解。',
+    specs: [
+      { label: '適用膠體', value: '雙劑型環氧樹脂、熱固化結構膠' },
+      { label: '工作溫度', value: '50°C - 80°C 水浴或烘箱' },
+      { label: '清除效率', value: '4 - 16 小時使膠體完全膨潤弱化' },
+      { label: '腐蝕性', value: '對銅、鋁、矽片、金質導線無腐蝕' }
+    ],
+    cases: [
+      {
+        company: '內湖科學園區高階車載晶片封裝廠',
+        tag: '高價值 IC 重工回收',
+        challenge: '車載控制模組在封測階段常進行環氧樹脂（Epoxy）整體灌封以耐震防水。一旦組裝測試發現部分元件故障，由於熱固性環氧樹脂具有極佳的耐高溫與耐溶劑性，極難移除，導致整塊價值數萬元的車載板被迫報廢。',
+        solution: '導入丰泰「安全無損解熱固膠劑 L0-Gen-3 / L0-Gen-4」。在 80°C 水浴加熱輔助下，解膠分子深入高度密實的環氧樹脂網格使其軟化呈粉末或膨潤果凍狀，再以精密清洗劑沖洗。',
+        result: '在不傷及線路板上金導線與矽晶片的前提下，完好將固化封膠清除，成功更換故障元件並重組，救回價值昂貴的車載主控板，單一產線每月節省百萬重工成本。'
+      }
+    ]
+  }
+};
+
+function initProductDetail() {
+  const sidebarMenu = document.getElementById('product-sidebar-menu');
+  const mainContent = document.getElementById('product-detail-main');
+  
+  if (!sidebarMenu || !mainContent) return;
+
+  // Get selected product id from URL query (?id=xxx)
+  const urlParams = new URLSearchParams(window.location.search);
+  let activeId = urlParams.get('id');
+  
+  // Default to first product if none specified or invalid
+  if (!activeId || !PRODUCT_DETAIL_DATA[activeId]) {
+    activeId = 'agri-analyzer';
+  }
+
+  // Render Sidebar Menu
+  sidebarMenu.innerHTML = '';
+  Object.keys(PRODUCT_DETAIL_DATA).forEach(key => {
+    const item = PRODUCT_DETAIL_DATA[key];
+    const link = document.createElement('a');
+    link.href = `product-detail.html?id=${key}`;
+    link.className = `sidebar-item ${key === activeId ? 'active' : ''}`;
+    link.innerHTML = `
+      <span class="sidebar-item-icon">${item.icon}</span>
+      <span>${item.title}</span>
+    `;
+    sidebarMenu.appendChild(link);
+  });
+
+  // Render Main Content
+  const data = PRODUCT_DETAIL_DATA[activeId];
+  
+  // Specs rendering
+  let specsHtml = '';
+  data.specs.forEach(spec => {
+    specsHtml += `
+      <div class="spec-item">
+        <div class="spec-label">${spec.label}</div>
+        <div class="spec-value">${spec.value}</div>
+      </div>
+    `;
+  });
+
+  // Case Studies rendering
+  let casesHtml = '';
+  data.cases.forEach(c => {
+    casesHtml += `
+      <div class="case-study-card">
+        <div class="case-header">
+          <span class="case-company"><i class="fa-solid fa-circle-check" style="color: var(--plant-green); margin-right: 6px;"></i> ${c.company}</span>
+          <span class="case-tag">${c.tag}</span>
+        </div>
+        
+        <div class="case-challenge">
+          <h5><i class="fa-solid fa-triangle-exclamation"></i> 面臨挑戰 (Challenge)</h5>
+          <p style="font-size: 0.95rem; margin-bottom: 0; line-height: 1.5; color: var(--text-muted);">${c.challenge}</p>
+        </div>
+        
+        <div class="case-solution">
+          <h5><i class="fa-solid fa-lightbulb"></i> 丰泰技術解決方案 (Solution)</h5>
+          <p style="font-size: 0.95rem; margin-bottom: 0; line-height: 1.5; color: var(--text-muted);">${c.solution}</p>
+        </div>
+        
+        <div class="case-result">
+          <h5><i class="fa-solid fa-chart-line"></i> 實際成果與效益 (Result)</h5>
+          <p>${c.result}</p>
+        </div>
+      </div>
+    `;
+  });
+
+  mainContent.innerHTML = `
+    <div class="product-detail-header">
+      <span class="product-detail-badge ${data.categoryClass}">${data.category}</span>
+      <h1 class="product-detail-title">${data.title}</h1>
+      <p class="product-detail-desc">${data.desc}</p>
+    </div>
+    
+    <div class="product-specs-section">
+      <h3 class="product-spec-title"><i class="fa-solid fa-microchip"></i> 技術指標與規格</h3>
+      <div class="product-spec-grid">
+        ${specsHtml}
+      </div>
+    </div>
+    
+    <div class="case-study-section">
+      <h3 class="case-study-title"><i class="fa-solid fa-file-invoice"></i> 相關實際成功案例</h3>
+      <div class="case-study-list">
+        ${casesHtml}
+      </div>
+    </div>
+    
+    <div style="margin-top: 40px; border-top: 1px solid var(--border-light); padding-top: 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+      <div>
+        <h5 style="font-weight: 700; color: var(--text-main); margin-bottom: 4px;">對此產品有興趣，或有客製化打樣需求？</h5>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">丰泰專業研發團隊為您量身打造測試方案與評估服務。</p>
+      </div>
+      <a href="contact.html" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> 聯絡諮詢產品</a>
+    </div>
+  `;
 }

@@ -1207,6 +1207,8 @@ header.scrolled {
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  text-decoration: none;
+  color: inherit;
 }
 
 .portfolio-item:hover {
@@ -1831,6 +1833,272 @@ footer {
 }
 
 /* ==========================================================================
+   Product Detail Page Styles
+   ========================================================================== */
+.product-detail-layout {
+  padding: 120px 24px 80px;
+  background-color: var(--bg-secondary);
+}
+
+.product-detail-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.product-sidebar {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-light);
+  border-radius: 20px;
+  padding: 30px 24px;
+  position: sticky;
+  top: 100px;
+  box-shadow: var(--shadow-sm);
+  z-index: 10;
+}
+
+.sidebar-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  color: var(--text-main);
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: 12px;
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: var(--transition-normal);
+  border: 1px solid transparent;
+}
+
+.sidebar-item:hover {
+  background-color: var(--sky-blue-soft);
+  color: var(--sky-blue-hover);
+}
+
+.sidebar-item.active {
+  background-color: var(--sky-blue-light);
+  border-color: var(--sky-blue);
+  color: var(--sky-blue-hover);
+}
+
+.sidebar-item-icon {
+  font-size: 1.1rem;
+}
+
+.product-main-content {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-light);
+  border-radius: 24px;
+  padding: 48px;
+  box-shadow: var(--shadow-sm);
+  animation: fadeIn 0.5s forwards;
+}
+
+.product-detail-header {
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: 30px;
+  margin-bottom: 36px;
+}
+
+.product-detail-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.product-detail-badge.badge-agri { background-color: var(--plant-green-light); color: var(--plant-green-hover); }
+.product-detail-badge.badge-chem { background-color: var(--earth-beige); color: var(--earth-dark); }
+.product-detail-badge.badge-material { background-color: var(--sky-blue-light); color: var(--sky-blue-hover); }
+
+.product-detail-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 12px;
+}
+
+.product-detail-desc {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.product-spec-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.product-spec-title i {
+  color: var(--sky-blue);
+}
+
+.product-spec-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.spec-item {
+  background-color: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid var(--border-light);
+}
+
+.spec-label {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  font-weight: 600;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.spec-value {
+  font-size: 1.05rem;
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+/* Case Study section */
+.case-study-section {
+  border-top: 1px solid var(--border-light);
+  padding-top: 40px;
+  margin-top: 40px;
+}
+
+.case-study-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.case-study-title i {
+  color: var(--plant-green);
+}
+
+.case-study-card {
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(255, 255, 255, 0.5) 100%);
+  border-radius: 20px;
+  border: 1px solid var(--border-light);
+  padding: 36px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.case-study-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--plant-green), var(--sky-blue));
+}
+
+.case-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.case-company {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.case-tag {
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  background-color: var(--plant-green-light);
+  color: var(--plant-green-hover);
+  border-radius: 30px;
+}
+
+.case-challenge {
+  margin-bottom: 20px;
+}
+
+.case-challenge h5 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #dc2626;
+  margin-bottom: 6px;
+  margin-top: 0;
+}
+
+.case-solution {
+  margin-bottom: 20px;
+}
+
+.case-solution h5 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--plant-green-hover);
+  margin-bottom: 6px;
+  margin-top: 0;
+}
+
+.case-result {
+  background-color: rgba(16, 185, 129, 0.06);
+  border-radius: 12px;
+  padding: 16px 20px;
+  border: 1px solid rgba(16, 185, 129, 0.12);
+}
+
+.case-result h5 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--plant-green-hover);
+  margin-bottom: 8px;
+  margin-top: 0;
+}
+
+.case-result p {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
    Responsive Breakpoints
    ========================================================================== */
 @media (max-width: 1024px) {
@@ -1859,6 +2127,27 @@ footer {
   
   .footer-col:last-child {
     grid-column: span 3;
+  }
+
+  .product-detail-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  
+  .product-sidebar {
+    position: static;
+    padding: 20px;
+  }
+  
+  .sidebar-menu {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .sidebar-item {
+    white-space: nowrap;
   }
 }
 
@@ -1904,6 +2193,19 @@ footer {
   
   .form-group.full-width {
     grid-column: span 1;
+  }
+
+  .product-main-content {
+    padding: 30px 20px;
+  }
+  
+  .product-spec-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .case-study-card {
+    padding: 24px;
   }
   
   /* Mobile Menu navigation */

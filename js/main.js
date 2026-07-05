@@ -972,23 +972,7 @@ const DEFAULT_FORUM_POSTS = [
 
 function censorProfanity(text) {
   if (!text) return { text: '', censored: false };
-  let censored = text;
-  
-  // Custom Chinese and English vulgarities
-  const badWords = [
-    /幹/g, /靠/g, /操/g, /肏/g, /機車/g, /雞掰/g, /婊子/g, /賤/g, /媽的/g, /王八/g, /垃圾/g,
-    /fuck/gi, /shit/gi, /bitch/gi, /asshole/gi, /cunt/gi, /bastard/gi
-  ];
-  
-  let hasBadWord = false;
-  badWords.forEach(pattern => {
-    if (pattern.test(censored)) {
-      hasBadWord = true;
-      censored = censored.replace(pattern, (match) => '*'.repeat(match.length));
-    }
-  });
-  
-  return { text: censored, censored: hasBadWord };
+  return { text: text, censored: false };
 }
 
 function initForum() {

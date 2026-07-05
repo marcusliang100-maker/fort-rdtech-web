@@ -740,6 +740,13 @@ const PRODUCT_DETAIL_DATA = {
       { label: '基材安全性', value: '不傷光學玻璃、金導線、PC' },
       { label: '環保認證', value: 'RoHS, REACH 100% 符合' }
     ],
+    markets: [
+      '金工藝品修復',
+      'Si-Ph零組件修復',
+      'CIS模塊鏡頭更換',
+      '可撓式LCD軟板重工',
+      '美睫脫膠'
+    ],
     cases: [
       {
         company: '竹科義X科技',
@@ -852,6 +859,27 @@ function initProductDetail() {
     `;
   });
 
+  // Markets rendering
+  let marketsHtml = '';
+  if (data.markets && data.markets.length > 0) {
+    let marketItems = '';
+    data.markets.forEach(m => {
+      marketItems += `
+        <div style="background-color: var(--bg-secondary); border: 1px solid var(--border-light); padding: 12px 18px; border-radius: 12px; font-weight: 700; font-size: 0.95rem; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
+          <i class="fa-solid fa-circle-check" style="color: var(--sky-blue);"></i> ${m}
+        </div>
+      `;
+    });
+    marketsHtml = `
+      <div class="product-markets-section" style="margin-top: 30px;">
+        <h3 class="product-spec-title" style="margin-bottom: 16px;"><i class="fa-solid fa-industry"></i> 核心應用市場</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+          ${marketItems}
+        </div>
+      </div>
+    `;
+  }
+
   mainContent.innerHTML = `
     <div class="product-detail-header">
       <span class="product-detail-badge ${data.categoryClass}">${data.category}</span>
@@ -865,8 +893,10 @@ function initProductDetail() {
         ${specsHtml}
       </div>
     </div>
+
+    ${marketsHtml}
     
-    <div class="case-study-section">
+    <div class="case-study-section" style="margin-top: 40px;">
       <h3 class="case-study-title"><i class="fa-solid fa-file-invoice"></i> 相關實際成功案例</h3>
       <div class="case-study-list">
         ${casesHtml}

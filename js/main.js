@@ -1009,8 +1009,8 @@ function initForum() {
 
   if (!postsListContainer) return;
 
-  // 1. Initialize Forum Posts (with jsonbin-zeta Cloud Database integration)
-  const CLOUD_BIN_URL = 'https://jsonbin-zeta.vercel.app/api/bins/KnJYLKNbGB';
+  // 1. Initialize Forum Posts (with KVdb.io Cloud Database integration)
+  const CLOUD_BIN_URL = 'https://kvdb.io/5JsiDqYRrEid5FKkc4isvm/posts';
   let posts = DEFAULT_FORUM_POSTS;
   
   // Use localStorage cache for instant initial rendering

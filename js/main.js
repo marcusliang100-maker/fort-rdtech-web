@@ -542,7 +542,7 @@ function initContactForm() {
 
     // Form data to submit to Web3Forms
     const formData = {
-      access_key: 'YOUR_WEB3FORMS_ACCESS_KEY_HERE', // User will replace this with their Web3Forms key
+      access_key: '506b3292-2a33-4fb0-8606-3ff8d8eb8935',
       name: name,
       email: email,
       phone: phone || '未提供',

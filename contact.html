@@ -98,13 +98,18 @@
               <p>+886-910-245379 (週一至週五 09:00 - 18:00)</p>
             </div>
           </div>
-          <div class="contact-detail-item">
-            <div class="contact-detail-icon">
+          <div class="contact-detail-item" style="align-items: flex-start;">
+            <div class="contact-detail-icon" style="margin-top: 4px;">
               <i class="fa-solid fa-envelope"></i>
             </div>
             <div class="contact-detail-text">
-              <h5>電子郵件</h5>
-              <p>marcus.liang@fort-instru.com</p>
+              <h5>部門聯絡信箱</h5>
+              <ul style="list-style: none; padding: 0; margin: 4px 0 0; display: flex; flex-direction: column; gap: 6px; font-size: 0.95rem;">
+                <li><strong style="color: var(--text-main);">化學諮詢：</strong><a href="mailto:tongsimiao@fort-instru.com" style="color: var(--sky-blue-hover); text-decoration: none;">tongsimiao@fort-instru.com</a></li>
+                <li><strong style="color: var(--text-main);">量測諮詢：</strong><a href="mailto:marcus.liang@fort-instru.com" style="color: var(--sky-blue-hover); text-decoration: none;">marcus.liang@fort-instru.com</a></li>
+                <li><strong style="color: var(--text-main);">農業諮詢：</strong><a href="mailto:tongsimiao@fort-instru.com" style="color: var(--sky-blue-hover); text-decoration: none;">tongsimiao@fort-instru.com</a></li>
+                <li><strong style="color: var(--text-main);">自動化諮詢：</strong><a href="mailto:kiwi.chen@fort-instru.com" style="color: var(--sky-blue-hover); text-decoration: none;">kiwi.chen@fort-instru.com</a></li>
+              </ul>
             </div>
           </div>
           <div class="contact-detail-item">
@@ -145,6 +150,15 @@
               <input class="form-input" type="tel" id="form-phone" placeholder="0912-345-678">
             </div>
             <div class="form-group">
+              <label class="form-label" for="form-category">問題歸類 *</label>
+              <select class="form-input" id="form-category" required style="width: 100%; appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2364748b%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 14px top 50%; background-size: 10px auto; padding-right: 40px;">
+                <option value="chem">化學 (tongsimiao@fort-instru.com)</option>
+                <option value="measure" selected>量測 (marcus.liang@fort-instru.com)</option>
+                <option value="agri">農業 (tongsimiao@fort-instru.com)</option>
+                <option value="auto">自動化 (kiwi.chen@fort-instru.com)</option>
+              </select>
+            </div>
+            <div class="form-group full-width">
               <label class="form-label" for="form-subject">諮詢主旨 *</label>
               <input class="form-input" type="text" id="form-subject" placeholder="例如：解UV膠劑打樣諮詢" required>
             </div>

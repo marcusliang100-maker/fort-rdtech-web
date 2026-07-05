@@ -522,6 +522,7 @@ function initContactForm() {
     const name = document.getElementById('form-name').value.trim();
     const email = document.getElementById('form-email').value.trim();
     const phone = document.getElementById('form-phone').value.trim();
+    const categoryEl = document.getElementById('form-category');
     const subject = document.getElementById('form-subject').value.trim();
     const message = document.getElementById('form-message-input').value.trim();
 
@@ -535,19 +536,48 @@ function initContactForm() {
       return;
     }
 
+    const categoryVal = categoryEl ? categoryEl.value : 'measure';
+    
+    // Define access keys for each email. If placeholder key is found, fall back to Marcus's key.
+    const MARCUS_KEY = '506b3292-2a33-4fb0-8606-3ff8d8eb8935';
+    const KEY_MAPPING = {
+      'chem': { key: 'YOUR_CHEM_ACCESS_KEY_HERE', email: 'tongsimiao@fort-instru.com', label: '化學' },
+      'measure': { key: MARCUS_KEY, email: 'marcus.liang@fort-instru.com', label: '量測' },
+      'agri': { key: 'YOUR_AGRI_ACCESS_KEY_HERE', email: 'tongsimiao@fort-instru.com', label: '農業' },
+      'auto': { key: 'YOUR_AUTO_ACCESS_KEY_HERE', email: 'kiwi.chen@fort-instru.com', label: '自動化' }
+    };
+
+    const targetInfo = KEY_MAPPING[categoryVal] || KEY_MAPPING['measure'];
+    let activeKey = targetInfo.key;
+    
+    // Check if the key is a placeholder or not provided
+    const isPlaceholder = !activeKey || activeKey.startsWith('YOUR_');
+    if (isPlaceholder) {
+      activeKey = MARCUS_KEY; // Fallback to Marcus's key
+    }
+
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalBtnText = submitBtn.innerHTML;
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 傳送中...';
 
+    // Build the message body to display target routing info if it was forwarded due to fallback key
+    let finalMessage = `【諮詢問題歸類】：${targetInfo.label}\n`;
+    finalMessage += `【應聯繫信箱】：${targetInfo.email}\n`;
+    if (isPlaceholder) {
+      finalMessage += `（提醒：因該部門尚未綁定 Web3Forms 金鑰，此郵件已透過 Marcus 的金鑰轉送。請手動轉寄給 ${targetInfo.email} 處理）\n`;
+    }
+    finalMessage += `--------------------------------------------------\n\n`;
+    finalMessage += message;
+
     // Form data to submit to Web3Forms
     const formData = {
-      access_key: '506b3292-2a33-4fb0-8606-3ff8d8eb8935',
+      access_key: activeKey,
       name: name,
       email: email,
       phone: phone || '未提供',
-      subject: `[丰泰官網諮詢] ${subject}`,
-      message: message,
+      subject: `[丰泰${targetInfo.label}諮詢] ${subject}`,
+      message: finalMessage,
       from_name: '丰泰技研官方網站'
     };
 

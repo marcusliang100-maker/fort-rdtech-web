@@ -999,12 +999,53 @@ function initForum() {
 
   if (!postsListContainer) return;
 
-  // 1. Initialize Forum Posts in localStorage
-  let posts = JSON.parse(localStorage.getItem('forum_posts'));
-  if (!posts || posts.length === 0) {
-    posts = DEFAULT_FORUM_POSTS;
-    localStorage.setItem('forum_posts', JSON.stringify(posts));
+  // 1. Initialize Forum Posts (with ExtendsClass Cloud Database integration)
+  const CLOUD_BIN_URL = 'https://extendsclass.com/api/json-storage/bin/ebcedca';
+  let posts = DEFAULT_FORUM_POSTS;
+  
+  // Use localStorage cache for instant initial rendering
+  const localCached = localStorage.getItem('forum_posts');
+  if (localCached) {
+    try {
+      posts = JSON.parse(localCached);
+    } catch(e) {
+      console.error(e);
+    }
   }
+
+  // Sync to ExtendsClass cloud database
+  function syncCloudPosts() {
+    localStorage.setItem('forum_posts', JSON.stringify(posts));
+    fetch(CLOUD_BIN_URL, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(posts)
+    })
+    .catch(err => {
+      console.error('Failed to sync to cloud database:', err);
+    });
+  }
+
+  // Fetch real-time data from cloud database
+  function fetchCloudPosts() {
+    fetch(CLOUD_BIN_URL)
+    .then(res => res.json())
+    .then(data => {
+      if (Array.isArray(data)) {
+        posts = data;
+        localStorage.setItem('forum_posts', JSON.stringify(posts));
+        renderPosts();
+      }
+    })
+    .catch(err => {
+      console.error('Failed to fetch from cloud database:', err);
+    });
+  }
+
+  // Trigger initial fetch
+  fetchCloudPosts();
 
   let activeFilter = 'all';
 
@@ -1197,7 +1238,7 @@ function initForum() {
     };
 
     posts.unshift(newPost);
-    localStorage.setItem('forum_posts', JSON.stringify(posts));
+    syncCloudPosts();
     
     closePostModal();
     renderPosts();
@@ -1345,7 +1386,7 @@ function initForum() {
       post.likes = Math.max(0, (post.likes || 0) - 1);
     }
     
-    localStorage.setItem('forum_posts', JSON.stringify(posts));
+    syncCloudPosts();
     renderPosts();
   }
 
@@ -1368,7 +1409,7 @@ function initForum() {
     };
 
     post.replies.push(newReply);
-    localStorage.setItem('forum_posts', JSON.stringify(posts));
+    syncCloudPosts();
     
     renderPosts();
     // Keep replies area expanded after submit

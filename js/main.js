@@ -999,8 +999,8 @@ function initForum() {
 
   if (!postsListContainer) return;
 
-  // 1. Initialize Forum Posts (with ExtendsClass Cloud Database integration)
-  const CLOUD_BIN_URL = 'https://extendsclass.com/api/json-storage/bin/ebcedca';
+  // 1. Initialize Forum Posts (with jsonbin-zeta Cloud Database integration)
+  const CLOUD_BIN_URL = 'https://jsonbin-zeta.vercel.app/api/bins/KnJYLKNbGB';
   let posts = DEFAULT_FORUM_POSTS;
   
   // Use localStorage cache for instant initial rendering

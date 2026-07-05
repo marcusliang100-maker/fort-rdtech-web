@@ -2429,7 +2429,7 @@ footer {
 
 .floating-pineapple {
   position: absolute;
-  opacity: 0.05; /* Subtle semi-transparent visual */
+  opacity: 0.12; /* Watermark opacity for standard colors to be visible but subtle */
   animation: floatAround 20s infinite ease-in-out;
   will-change: transform;
 }
@@ -2441,7 +2441,6 @@ footer {
   height: 90px;
   animation-duration: 25s;
   animation-delay: 0s;
-  color: #eab308; /* Soft golden yellow */
 }
 
 .floating-pineapple:nth-child(2) {
@@ -2451,7 +2450,6 @@ footer {
   height: 120px;
   animation-duration: 30s;
   animation-delay: -5s;
-  color: #10b981; /* Soft plant green */
 }
 
 .floating-pineapple:nth-child(3) {
@@ -2461,7 +2459,6 @@ footer {
   height: 70px;
   animation-duration: 22s;
   animation-delay: -8s;
-  color: #eab308;
 }
 
 .floating-pineapple:nth-child(4) {
@@ -2471,7 +2468,6 @@ footer {
   height: 100px;
   animation-duration: 28s;
   animation-delay: -12s;
-  color: #10b981;
 }
 
 .floating-pineapple:nth-child(5) {
@@ -2481,8 +2477,7 @@ footer {
   height: 80px;
   animation-duration: 35s;
   animation-delay: -3s;
-  color: #eab308;
-  opacity: 0.03; /* Extra subtle in the middle */
+  opacity: 0.08; /* Slightly more subtle for the center element */
 }
 
 @keyframes floatAround {

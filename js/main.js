@@ -1038,15 +1038,8 @@ function initForum() {
     });
   }
 
-  // Fetch real-time data from cloud database (with cache busting)
   function fetchCloudPosts() {
-    fetch(CLOUD_BIN_URL + '?nocache=' + Date.now(), {
-      cache: 'no-store',
-      headers: {
-        'Cache-Control': 'no-store, no-cache, must-revalidate',
-        'Pragma': 'no-cache'
-      }
-    })
+    fetch(CLOUD_BIN_URL + '?nocache=' + Date.now())
     .then(res => res.json())
     .then(data => {
       if (Array.isArray(data)) {

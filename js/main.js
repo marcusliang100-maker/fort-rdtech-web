@@ -1056,8 +1056,43 @@ function initForum() {
     let seconds = 60;
     sendCodeBtn.textContent = `${seconds} 秒`;
     
-    // Alert user with the simulated passcode
-    alert(`【系統通知】\n已向您的信箱 ${email} 發送模擬驗證碼！\n請於表單輸入預設驗證碼：1234 進行登入。`);
+    // Generate a random 4-digit verification code
+    const generatedCode = Math.floor(1000 + Math.random() * 9000).toString();
+    sessionStorage.setItem('forum_login_otp', generatedCode);
+    sessionStorage.setItem('forum_login_target_email', email);
+
+    // Call Web3Forms to send a real email to Marcus (the key owner)
+    const MARCUS_KEY = '506b3292-2a33-4fb0-8606-3ff8d8eb8935';
+    const mailData = {
+      access_key: MARCUS_KEY,
+      name: '丰泰技術討論區',
+      email: 'noreply@fort-instru.com',
+      subject: '【丰泰技研】討論區登入驗證碼',
+      message: `有使用者嘗試以信箱 ${email} 登入丰泰官方技術討論區。\n\n您的 4 位數登入驗證碼為：${generatedCode}\n\n請在討論區登入視窗中輸入此驗證碼以完成登入。`
+    };
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(mailData)
+    })
+    .then(async (response) => {
+      if (response.status === 200) {
+        alert(`【系統已發信】\n真實驗證碼信件已發送！請至管理員信箱（marcus.liang@fort-instru.com）收取您的 4 位數驗證碼。`);
+      } else {
+        console.error('Web3Forms failed to deliver OTP');
+        alert('（信件發送伺服器繁忙）已啟用備用登入，請輸入預設碼 1234 進行登入。');
+        sessionStorage.setItem('forum_login_otp', '1234');
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      alert('（網路連線中斷）已啟用備用登入，請輸入預設碼 1234 進行登入。');
+      sessionStorage.setItem('forum_login_otp', '1234');
+    });
 
     countdownTimer = setInterval(() => {
       seconds--;
@@ -1074,9 +1109,10 @@ function initForum() {
     e.preventDefault();
     const email = loginEmailInput.value.trim();
     const code = loginCodeInput.value.trim();
+    const sentCode = sessionStorage.getItem('forum_login_otp') || '1234';
 
-    if (code !== '1234') {
-      alert('驗證碼錯誤！請輸入 1234 進行登入。');
+    if (code !== sentCode) {
+      alert(`驗證碼錯誤！請輸入寄送到信箱 marcus.liang@fort-instru.com 中的 4 位驗證碼。`);
       return;
     }
 

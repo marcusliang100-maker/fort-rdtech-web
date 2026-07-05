@@ -1009,8 +1009,8 @@ function initForum() {
 
   if (!postsListContainer) return;
 
-  // 1. Initialize Forum Posts (with KVdb.io Cloud Database integration)
-  const CLOUD_BIN_URL = 'https://kvdb.io/5JsiDqYRrEid5FKkc4isvm/posts';
+  // 1. Initialize Forum Posts (with ExtendsClass + CORS Proxy integration)
+  const CLOUD_BIN_URL = 'https://extendsclass.com/api/json-storage/bin/ebcedca';
   let posts = DEFAULT_FORUM_POSTS;
   
   // Use localStorage cache for instant initial rendering
@@ -1023,10 +1023,10 @@ function initForum() {
     }
   }
 
-  // Sync to ExtendsClass cloud database
+  // Sync to ExtendsClass cloud database via CORS proxy
   function syncCloudPosts() {
     localStorage.setItem('forum_posts', JSON.stringify(posts));
-    fetch(CLOUD_BIN_URL, {
+    fetch('https://corsproxy.io/?' + CLOUD_BIN_URL, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -1039,7 +1039,7 @@ function initForum() {
   }
 
   function fetchCloudPosts() {
-    fetch(CLOUD_BIN_URL + '?nocache=' + Date.now())
+    fetch('https://corsproxy.io/?' + CLOUD_BIN_URL + '&nocache=' + Date.now())
     .then(res => res.json())
     .then(data => {
       if (Array.isArray(data)) {

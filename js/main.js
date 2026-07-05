@@ -975,6 +975,16 @@ function censorProfanity(text) {
   return { text: text, censored: false };
 }
 
+function getLocalDateTimeString() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  return `${year}-${month}-${day} ${hours}:${minutes}`;
+}
+
 function initForum() {
   const postsListContainer = document.getElementById('forum-posts-list');
   const userStatusContainer = document.getElementById('forum-user-status');
@@ -1237,7 +1247,7 @@ function initForum() {
       title: titleCensored.text,
       body: bodyCensored.text,
       author: userEmail,
-      date: new Date().toISOString().replace('T', ' ').substring(0, 16),
+      date: getLocalDateTimeString(),
       likes: 0,
       likedBy: [],
       replies: []
@@ -1411,7 +1421,7 @@ function initForum() {
     const newReply = {
       author: userEmail,
       body: replyCensored.text,
-      date: new Date().toISOString().replace('T', ' ').substring(0, 16)
+      date: getLocalDateTimeString()
     };
 
     post.replies.push(newReply);

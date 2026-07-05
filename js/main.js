@@ -16,11 +16,14 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('contact-form')) {
     initContactForm();
   }
-  if (document.querySelector('.filter-btn')) {
+  if (document.querySelector('.filter-btn') && document.querySelector('.portfolio-item')) {
     initPortfolioFilters();
   }
   if (document.getElementById('product-detail-main')) {
     initProductDetail();
+  }
+  if (document.getElementById('forum-container')) {
+    initForum();
   }
 });
 
@@ -878,4 +881,461 @@ function initProductDetail() {
       <a href="contact.html" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> 聯絡諮詢產品</a>
     </div>
   `;
+}
+
+/* ==========================================================================
+   Discussion Forum & Email Login Logic
+   ========================================================================== */
+const DEFAULT_FORUM_POSTS = [
+  {
+    id: 'post-1',
+    category: 'measure',
+    title: '請問多光譜選果機的甜度檢測精度受哪些因素影響？',
+    body: '我們包裝廠最近想導入多光譜分析儀。想請教各位專家，不同品種的蘋果（例如富士與紅玉）其表皮厚度與顏色差異，會不會大幅影響近紅外光譜測量甜度的精準度？校準上需要針對品種做個別的數據建模嗎？',
+    author: 'tech_leader@fruits.com.tw',
+    date: '2026-07-02 14:30',
+    likes: 12,
+    likedBy: [],
+    replies: [
+      {
+        author: 'marcus.liang@fort-instru.com',
+        body: '您好！不同品種的水果由於表皮蠟質層、細胞密度與色素不同，近紅外穿透光譜的散射係數確實有差。丰泰的多光譜分析儀在出廠時，內部已針對主流品種（如富士、蜜蘋果等）建立了多變量校正模型（PLS/ANN）。如果是較為罕見或地方特色品種，系統也提供快速學習模式，只需破壞性抽樣 50 顆果實測量並輸入數值，AI 即可自動微調模型。',
+        date: '2026-07-02 16:15'
+      }
+    ]
+  },
+  {
+    id: 'post-2',
+    category: 'chem',
+    title: '使用 L0-Gen-2 解 UV 膠劑時，貼合的 PC 殼體邊緣出現輕微白化該如何處理？',
+    body: '在重工手機相機鏡頭模組時，我們使用了 L0-Gen-2 進行浸泡，膠體確實很完美地成片剝離了。但是在高倍率顯微鏡下觀察，發現 PC 塑料外殼邊緣有極微弱的灰白色溶脹痕跡。請問有什麼方法可以消除或避免這個現象？',
+    author: 'opto_eng@wistron.com',
+    date: '2026-07-03 10:20',
+    likes: 8,
+    likedBy: [],
+    replies: [
+      {
+        author: 'tongsimiao@fort-instru.com',
+        body: '您好，這通常是浸泡時間過長或溶劑帶有微量水分造成的。PC 塑料對強極性溶劑較為敏感。建議：1. 將浸泡溫度控制在 40°C 以下；2. 浸泡時間縮短在 2 小時以內；3. 取出後立刻使用專用的無水異丙醇（IPA）清洗液進行超音波震盪清洗，迅速帶走殘留解膠劑；4. 若量產建議更換成針對 PC 基材相容性更好的 L0-Gen-1版本。',
+        date: '2026-07-03 12:45'
+      }
+    ]
+  },
+  {
+    id: 'post-3',
+    category: 'agri',
+    title: '陰雨天施用光合作用促進劑，一般需要間隔多久？',
+    body: '我是南投草莓農，最近冬季常遇到連續一個禮拜以上都陰雨綿綿、沒有陽光的情況。我的溫室雖然有補光燈但效果有限，想施用促進劑，請問這類逆境下，噴施次數與間隔應該如何安排？',
+    author: 'farmer_lin@南投.tw',
+    date: '2026-07-04 08:05',
+    likes: 15,
+    likedBy: [],
+    replies: [
+      {
+        author: 'tongsimiao@fort-instru.com',
+        body: '林先生您好！在連續低溫陰雨的極端逆境下，作物氣孔開放程度較小，吸收率較低。建議將稀釋倍數稍微提高（如 800 倍），並每隔 10 天噴施一次。噴施時請務必選擇在上午 9:00 - 11:00（此時植物生理活性相對稍高）。施用後若能在 4 小時內保持葉面不淋雨，即可發揮最大捕光刺激效果，增強草莓的碳固定能力。',
+        date: '2026-07-04 09:30'
+      }
+    ]
+  }
+];
+
+function censorProfanity(text) {
+  if (!text) return { text: '', censored: false };
+  let censored = text;
+  
+  // Custom Chinese and English vulgarities
+  const badWords = [
+    /幹/g, /靠/g, /操/g, /肏/g, /機車/g, /雞掰/g, /婊子/g, /賤/g, /媽的/g, /王八/g, /垃圾/g,
+    /fuck/gi, /shit/gi, /bitch/gi, /asshole/gi, /cunt/gi, /bastard/gi
+  ];
+  
+  let hasBadWord = false;
+  badWords.forEach(pattern => {
+    if (pattern.test(censored)) {
+      hasBadWord = true;
+      censored = censored.replace(pattern, (match) => '*'.repeat(match.length));
+    }
+  });
+  
+  return { text: censored, censored: hasBadWord };
+}
+
+function initForum() {
+  const postsListContainer = document.getElementById('forum-posts-list');
+  const userStatusContainer = document.getElementById('forum-user-status');
+  
+  const triggerLoginBtn = document.getElementById('btn-trigger-login');
+  const createPostBtn = document.getElementById('btn-create-post');
+  
+  const loginModal = document.getElementById('forum-login-modal');
+  const closeLoginModalBtn = document.getElementById('btn-close-login-modal');
+  const loginForm = document.getElementById('forum-login-form');
+  const loginEmailInput = document.getElementById('login-email');
+  const loginCodeInput = document.getElementById('login-code');
+  const sendCodeBtn = document.getElementById('btn-send-code');
+  
+  const postModal = document.getElementById('forum-post-modal');
+  const closePostModalBtn = document.getElementById('btn-close-post-modal');
+  const postForm = document.getElementById('forum-post-form');
+  const postAuthorInput = document.getElementById('forum-post-author');
+  const postCategorySelect = document.getElementById('forum-post-category');
+  const postTitleInput = document.getElementById('forum-post-title');
+  const postBodyInput = document.getElementById('forum-post-body');
+
+  if (!postsListContainer) return;
+
+  // 1. Initialize Forum Posts in localStorage
+  let posts = JSON.parse(localStorage.getItem('forum_posts'));
+  if (!posts || posts.length === 0) {
+    posts = DEFAULT_FORUM_POSTS;
+    localStorage.setItem('forum_posts', JSON.stringify(posts));
+  }
+
+  let activeFilter = 'all';
+
+  // 2. Render user session status
+  function getLoggedInUser() {
+    return localStorage.getItem('forum_user_email');
+  }
+
+  function renderUserStatus() {
+    const userEmail = getLoggedInUser();
+    if (userEmail) {
+      userStatusContainer.innerHTML = `
+        <div class="status-logged-in">
+          <i class="fa-solid fa-circle-user" style="color: var(--plant-green);"></i>
+          <span>${userEmail}</span>
+        </div>
+        <button class="btn-logout" id="btn-forum-logout">登出</button>
+      `;
+      // Bind logout event
+      document.getElementById('btn-forum-logout').addEventListener('click', () => {
+        localStorage.removeItem('forum_user_email');
+        renderUserStatus();
+        renderPosts();
+      });
+    } else {
+      userStatusContainer.innerHTML = `
+        <button class="btn btn-secondary" style="padding: 10px 20px; font-size: 0.9rem;" id="btn-trigger-login">
+          <i class="fa-solid fa-right-to-bracket"></i> Email 登入
+        </button>
+      `;
+      document.getElementById('btn-trigger-login').addEventListener('click', openLoginModal);
+    }
+  }
+
+  // 3. Email Login Modal logic
+  let countdownTimer = null;
+  function openLoginModal() {
+    loginModal.classList.add('active');
+    loginForm.reset();
+    resetCountdown();
+  }
+
+  function closeLoginModal() {
+    loginModal.classList.remove('active');
+    resetCountdown();
+  }
+
+  function resetCountdown() {
+    if (countdownTimer) clearInterval(countdownTimer);
+    sendCodeBtn.disabled = false;
+    sendCodeBtn.textContent = '獲取驗證碼';
+  }
+
+  // Send Code handler
+  sendCodeBtn.addEventListener('click', () => {
+    const email = loginEmailInput.value.trim();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      alert('請先輸入格式正確的電子郵件信箱。');
+      return;
+    }
+
+    sendCodeBtn.disabled = true;
+    let seconds = 60;
+    sendCodeBtn.textContent = `${seconds} 秒`;
+    
+    // Alert user with the simulated passcode
+    alert(`【系統通知】\n已向您的信箱 ${email} 發送模擬驗證碼！\n請於表單輸入預設驗證碼：1234 進行登入。`);
+
+    countdownTimer = setInterval(() => {
+      seconds--;
+      if (seconds <= 0) {
+        resetCountdown();
+      } else {
+        sendCodeBtn.textContent = `${seconds} 秒`;
+      }
+    }, 1000);
+  });
+
+  // Login Submit handler
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = loginEmailInput.value.trim();
+    const code = loginCodeInput.value.trim();
+
+    if (code !== '1234') {
+      alert('驗證碼錯誤！請輸入 1234 進行登入。');
+      return;
+    }
+
+    // Save user session
+    localStorage.setItem('forum_user_email', email);
+    closeLoginModal();
+    renderUserStatus();
+    renderPosts();
+  });
+
+  closeLoginModalBtn.addEventListener('click', closeLoginModal);
+  loginModal.addEventListener('click', (e) => {
+    if (e.target === loginModal) closeLoginModal();
+  });
+
+  // 4. Create Post Modal logic
+  createPostBtn.addEventListener('click', () => {
+    const userEmail = getLoggedInUser();
+    if (!userEmail) {
+      openLoginModal();
+      return;
+    }
+    postAuthorInput.value = userEmail;
+    postModal.classList.add('active');
+  });
+
+  function closePostModal() {
+    postModal.classList.remove('active');
+    postForm.reset();
+  }
+
+  closePostModalBtn.addEventListener('click', closePostModal);
+  postModal.addEventListener('click', (e) => {
+    if (e.target === postModal) closePostModal();
+  });
+
+  // Post form submit
+  postForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const userEmail = getLoggedInUser();
+    if (!userEmail) {
+      openLoginModal();
+      return;
+    }
+
+    const category = postCategorySelect.value;
+    const rawTitle = postTitleInput.value.trim();
+    const rawBody = postBodyInput.value.trim();
+
+    // Profanity Filter
+    const titleCensored = censorProfanity(rawTitle);
+    const bodyCensored = censorProfanity(rawBody);
+
+    if (titleCensored.censored || bodyCensored.censored) {
+      alert('【溫馨提示】偵測到不當言詞或敏感內容，已自動過濾替換為 ***，請維持理性交流！');
+    }
+
+    const newPost = {
+      id: 'post-' + Date.now(),
+      category: category,
+      title: titleCensored.text,
+      body: bodyCensored.text,
+      author: userEmail,
+      date: new Date().toISOString().replace('T', ' ').substring(0, 16),
+      likes: 0,
+      likedBy: [],
+      replies: []
+    };
+
+    posts.unshift(newPost);
+    localStorage.setItem('forum_posts', JSON.stringify(posts));
+    
+    closePostModal();
+    renderPosts();
+  });
+
+  // 5. Category Filters
+  const fFilters = document.querySelectorAll('[data-forum-filter]');
+  fFilters.forEach(btn => {
+    btn.addEventListener('click', () => {
+      fFilters.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.getAttribute('data-forum-filter');
+      renderPosts();
+    });
+  });
+
+  // 6. Render Posts List
+  function renderPosts() {
+    postsListContainer.innerHTML = '';
+    const userEmail = getLoggedInUser();
+
+    const filteredPosts = posts.filter(post => activeFilter === 'all' || post.category === activeFilter);
+    
+    if (filteredPosts.length === 0) {
+      postsListContainer.innerHTML = `
+        <div style="text-align: center; padding: 60px 20px; background-color: var(--bg-primary); border-radius: 20px; border: 1px solid var(--border-light);">
+          <i class="fa-solid fa-folder-open" style="font-size: 3rem; color: var(--text-light); margin-bottom: 16px;"></i>
+          <p style="color: var(--text-muted); font-size: 1.1rem; margin: 0;">此類別尚無討論主題，歡迎發起新貼文！</p>
+        </div>
+      `;
+      return;
+    }
+
+    filteredPosts.forEach(post => {
+      const card = document.createElement('div');
+      card.className = 'forum-post-card';
+      
+      let categoryLabel = '量測';
+      if (post.category === 'chem') categoryLabel = '化學';
+      else if (post.category === 'agri') categoryLabel = '農業';
+      else if (post.category === 'auto') categoryLabel = '自動化';
+
+      const isLiked = post.likedBy && post.likedBy.includes(userEmail);
+      
+      // Render replies HTML
+      let repliesHtml = '';
+      post.replies.forEach(reply => {
+        repliesHtml += `
+          <div class="reply-card">
+            <div class="reply-meta">
+              <span class="reply-author"><i class="fa-solid fa-circle-user"></i> ${reply.author}</span>
+              <span class="reply-date">${reply.date}</span>
+            </div>
+            <div class="reply-body">${reply.body}</div>
+          </div>
+        `;
+      });
+
+      card.innerHTML = `
+        <div class="post-meta-row">
+          <div class="post-meta-left">
+            <span class="post-category-tag tag-${post.category}">${categoryLabel}</span>
+            <span class="post-author"><i class="fa-solid fa-user"></i> ${post.author}</span>
+            <span class="post-date">${post.date}</span>
+          </div>
+          <button class="post-like-btn ${isLiked ? 'liked' : ''}" data-post-id="${post.id}">
+            <i class="fa-solid fa-heart"></i> <span>${post.likes || 0}</span>
+          </button>
+        </div>
+        
+        <h3 class="forum-post-title">${post.title}</h3>
+        <div class="forum-post-body">${post.body}</div>
+        
+        <div class="post-actions-row">
+          <button class="btn-toggle-replies" data-post-id="${post.id}">
+            <i class="fa-solid fa-comments"></i> <span>查看回覆 (${post.replies.length})</span>
+          </button>
+        </div>
+        
+        <!-- Collapsible replies area -->
+        <div class="post-replies-area" id="replies-${post.id}" style="display: none;">
+          <div class="replies-list">
+            ${repliesHtml}
+          </div>
+          <form class="reply-form" data-post-id="${post.id}">
+            <textarea class="reply-textarea" placeholder="${userEmail ? '撰寫您的技術回覆意見（不當言詞將自動過濾）...' : '請先登入以發表回覆'}" required ${userEmail ? '' : 'disabled'}></textarea>
+            <button type="submit" class="btn btn-primary" style="padding: 10px 20px; font-size: 0.9rem;" ${userEmail ? '' : 'disabled'}>
+              <i class="fa-solid fa-reply"></i> 回覆
+            </button>
+          </form>
+        </div>
+      `;
+
+      postsListContainer.appendChild(card);
+      
+      // Bind like click
+      card.querySelector('.post-like-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (!userEmail) {
+          openLoginModal();
+          return;
+        }
+        handleLike(post.id);
+      });
+
+      // Bind toggle replies
+      const toggleBtn = card.querySelector('.btn-toggle-replies');
+      const repliesArea = card.querySelector('.post-replies-area');
+      toggleBtn.addEventListener('click', () => {
+        const isHidden = repliesArea.style.display === 'none';
+        repliesArea.style.display = isHidden ? 'block' : 'none';
+        toggleBtn.innerHTML = isHidden ? 
+          `<i class="fa-solid fa-circle-chevron-up"></i> 收起回覆` : 
+          `<i class="fa-solid fa-comments"></i> 查看回覆 (${post.replies.length})`;
+      });
+
+      // Bind reply form submit
+      const replyForm = card.querySelector('.reply-form');
+      replyForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (!userEmail) {
+          openLoginModal();
+          return;
+        }
+        const replyTextarea = replyForm.querySelector('.reply-textarea');
+        handleReplySubmit(post.id, replyTextarea.value.trim());
+      });
+    });
+  }
+
+  // 7. Handle Like Increment
+  function handleLike(postId) {
+    const userEmail = getLoggedInUser();
+    const post = posts.find(p => p.id === postId);
+    if (!post) return;
+
+    if (!post.likedBy) post.likedBy = [];
+    
+    const index = post.likedBy.indexOf(userEmail);
+    if (index === -1) {
+      post.likedBy.push(userEmail);
+      post.likes = (post.likes || 0) + 1;
+    } else {
+      post.likedBy.splice(index, 1);
+      post.likes = Math.max(0, (post.likes || 0) - 1);
+    }
+    
+    localStorage.setItem('forum_posts', JSON.stringify(posts));
+    renderPosts();
+  }
+
+  // 8. Handle Reply Submission
+  function handleReplySubmit(postId, text) {
+    const userEmail = getLoggedInUser();
+    const post = posts.find(p => p.id === postId);
+    if (!post || !userEmail) return;
+
+    // Filter profanity
+    const replyCensored = censorProfanity(text);
+    if (replyCensored.censored) {
+      alert('【溫馨提示】偵測到不當言詞或敏感內容，已自動過濾替換為 ***，請維持理性交流！');
+    }
+
+    const newReply = {
+      author: userEmail,
+      body: replyCensored.text,
+      date: new Date().toISOString().replace('T', ' ').substring(0, 16)
+    };
+
+    post.replies.push(newReply);
+    localStorage.setItem('forum_posts', JSON.stringify(posts));
+    
+    renderPosts();
+    // Keep replies area expanded after submit
+    const expandedArea = document.getElementById(`replies-${postId}`);
+    if (expandedArea) {
+      expandedArea.style.display = 'block';
+      const card = expandedArea.closest('.forum-post-card');
+      if (card) {
+        const toggleBtn = card.querySelector('.btn-toggle-replies');
+        if (toggleBtn) {
+          toggleBtn.innerHTML = `<i class="fa-solid fa-circle-chevron-up"></i> 收起回覆`;
+        }
+      }
+    }
+  }
+
+  // 9. Initial Render calls
+  renderUserStatus();
+  renderPosts();
 }

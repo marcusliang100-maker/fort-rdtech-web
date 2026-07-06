@@ -450,6 +450,17 @@ const SCIENCE_ARTICLES = {
       <p>一條現代化自動選果線每秒需要處理高達 10 到 15 顆水果。如此龐大的多光譜數據如果上傳雲端處理，延遲將無法想像。丰泰品質影像分析儀內部搭載高效能邊緣計算晶片（Edge TPU），運算經數百萬張選果樣本訓練的卷積神經網路（CNN）模型。AI 能在 30 毫秒內完成影像分割、光譜特徵提取與品質分級，並即時輸出指令給輸送帶的機械氣動閥，精準將「特級品」、「優等品」與「瑕疵品」分流投遞。</p>
       <h3>未來展望：從選果端延伸至產地預測</h3>
       <p>這台影像分析儀不僅是一台檢測機，更是一個農業大數據收集站。透過分析各產地、各批次的蔬果光譜數據，丰泰能協助農民回溯種植過程中的施肥與水分管理成效，預測採收後的最佳保鮮期與冷鏈運輸壽命，全面推動臺灣農業走向數據化與高值化的新農業時代。</p>
+      <h3>延伸應用：生蛋與熟蛋的分子光譜無損檢測</h3>
+      <p>多光譜成像技術不只適用於蔬果，更能應用於各種高精密民生與工業檢測。例如，我們能利用特定分子對特定光波長的吸收與折射特性，在不打破蛋殼的前題下，判斷雞蛋是生的（液態）還是熟的（固態蛋白結構）。熟蛋中的蛋白質經過熱變性後會高度折疊，導致光線穿透時的散射特性與生蛋液有顯著不同。以下是丰泰多光譜技術實測演示影片：</p>
+      <div style="text-align: center; margin: 20px 0;">
+        <a href="https://youtube.com/shorts/oeAqJRZOgUY" target="_blank" style="display: inline-block; position: relative; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
+          <img src="images/video-thumb-egg.png" alt="生蛋與熟蛋的分子光譜無損檢測" style="max-width: 100%; height: auto; display: block; border-radius: 12px;">
+          <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: var(--sky-blue); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+            <i class="fa-solid fa-play"></i>
+          </div>
+        </a>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 8px;">👉 點擊開啟：生熟雞蛋光譜感測 YouTube 演示影片</p>
+      </div>
     `
   }
 };

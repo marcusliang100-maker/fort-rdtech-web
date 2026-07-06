@@ -1023,9 +1023,33 @@ function initForum() {
     }
   }
 
+  const dbStatusEl = document.getElementById('forum-db-status');
+  const dbStatusTextEl = document.getElementById('forum-db-status-text');
+
+  function updateDbStatus(status, message) {
+    if (!dbStatusEl || !dbStatusTextEl) return;
+    dbStatusEl.style.display = 'flex';
+    dbStatusTextEl.textContent = message;
+    
+    if (status === 'success') {
+      dbStatusEl.style.backgroundColor = 'rgba(16, 185, 129, 0.1)';
+      dbStatusEl.style.color = '#10b981';
+      dbStatusEl.style.border = '1px solid rgba(16, 185, 129, 0.2)';
+    } else if (status === 'error') {
+      dbStatusEl.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
+      dbStatusEl.style.color = '#ef4444';
+      dbStatusEl.style.border = '1px solid rgba(239, 68, 68, 0.2)';
+    } else {
+      dbStatusEl.style.backgroundColor = 'rgba(234, 179, 8, 0.1)';
+      dbStatusEl.style.color = '#eab308';
+      dbStatusEl.style.border = '1px solid rgba(234, 179, 8, 0.2)';
+    }
+  }
+
   // Sync to ExtendsClass cloud database via CORS proxy
   function syncCloudPosts() {
     localStorage.setItem('forum_posts', JSON.stringify(posts));
+    updateDbStatus('loading', '正在將您的變更同步至雲端資料庫...');
     fetch('https://corsproxy.io/?' + CLOUD_BIN_URL, {
       method: 'PUT',
       headers: {
@@ -1033,23 +1057,45 @@ function initForum() {
       },
       body: JSON.stringify(posts)
     })
+    .then(res => {
+      if (res.ok) {
+        updateDbStatus('success', '變更已成功同步至雲端資料庫！');
+      } else {
+        throw new Error('HTTP ' + res.status);
+      }
+    })
     .catch(err => {
       console.error('Failed to sync to cloud database:', err);
+      if (window.location.protocol === 'file:') {
+        updateDbStatus('error', '瀏覽器安全限制：本機檔案 (file://) 拒絕外部連線，無法同步至雲端資料庫。請在 Vercel 線上環境測試！');
+      } else {
+        updateDbStatus('error', '同步失敗：' + err.message + '，目前留言暫存於您的瀏覽器。');
+      }
     });
   }
 
   function fetchCloudPosts() {
+    updateDbStatus('loading', '正在嘗試從雲端資料庫獲取最新討論內容...');
     fetch('https://corsproxy.io/?' + CLOUD_BIN_URL + '&nocache=' + Date.now())
-    .then(res => res.json())
+    .then(res => {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    })
     .then(data => {
       if (Array.isArray(data)) {
         posts = data;
         localStorage.setItem('forum_posts', JSON.stringify(posts));
+        updateDbStatus('success', '雲端資料庫連連成功！留言與討論內容已即時同步。');
         renderPosts();
       }
     })
     .catch(err => {
       console.error('Failed to fetch from cloud database:', err);
+      if (window.location.protocol === 'file:') {
+        updateDbStatus('error', '瀏覽器安全限制：您當前是透過本機檔案 (file://) 瀏覽。請使用線上 Vercel 網址，或於本機啟動 Live Server 伺服器以啟用雲端同步！');
+      } else {
+        updateDbStatus('error', '連線失敗：' + err.message + '，當前為本地離線快取模式。');
+      }
     });
   }
 

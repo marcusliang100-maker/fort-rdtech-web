@@ -1178,6 +1178,12 @@ function initForum() {
     sendCodeBtn.textContent = '獲取驗證碼';
   }
 
+  // EmailJS Configuration (To verify sender's own email, sign up at EmailJS.com and fill these fields.
+  // If left empty, it will fall back to sending the verification code to Marcus's admin mailbox).
+  const EMAILJS_PUBLIC_KEY = '';   // e.g. 'user_xxxx' or 'xxxx'
+  const EMAILJS_SERVICE_ID = '';   // e.g. 'service_xxxx'
+  const EMAILJS_TEMPLATE_ID = '';  // e.g. 'template_xxxx'
+
   // Send Code handler
   sendCodeBtn.addEventListener('click', () => {
     const email = loginEmailInput.value.trim();
@@ -1195,38 +1201,69 @@ function initForum() {
     sessionStorage.setItem('forum_login_otp', generatedCode);
     sessionStorage.setItem('forum_login_target_email', email);
 
-    // Call Web3Forms to send a real email to Marcus (the key owner)
-    const MARCUS_KEY = '506b3292-2a33-4fb0-8606-3ff8d8eb8935';
-    const mailData = {
-      access_key: MARCUS_KEY,
-      name: '丰泰技術討論區',
-      email: 'noreply@fort-instru.com',
-      subject: '【丰泰技研】討論區登入驗證碼',
-      message: `有使用者嘗試以信箱 ${email} 登入丰泰官方技術討論區。\n\n您的 4 位數登入驗證碼為：${generatedCode}\n\n請在討論區登入視窗中輸入此驗證碼以完成登入。`
-    };
-
-    fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(mailData)
-    })
-    .then(async (response) => {
-      if (response.status === 200) {
-        alert(`【系統已發信】\n真實驗證碼信件已發送！請至管理員信箱（marcus.liang@fort-instru.com）收取您的 4 位數驗證碼。`);
-      } else {
-        console.error('Web3Forms failed to deliver OTP');
-        alert('（信件發送伺服器繁忙）已啟用備用登入，請輸入預設碼 1234 進行登入。');
+    if (EMAILJS_PUBLIC_KEY && EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID) {
+      // Send directly to the user's email using EmailJS
+      fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          service_id: EMAILJS_SERVICE_ID,
+          template_id: EMAILJS_TEMPLATE_ID,
+          user_id: EMAILJS_PUBLIC_KEY,
+          template_params: {
+            to_email: email,
+            otp_code: generatedCode
+          }
+        })
+      })
+      .then(res => {
+        if (res.ok) {
+          alert(`【驗證信已發送】\n驗證碼已成功寄送至您的信箱：${email}\n請前往該信箱查收 4 位數驗證碼。`);
+        } else {
+          throw new Error('EmailJS HTTP ' + res.status);
+        }
+      })
+      .catch(error => {
+        console.error('EmailJS failed:', error);
+        alert('（驗證信發送失敗）已啟用備用驗證，請輸入預設碼 1234 進行登入測試。');
         sessionStorage.setItem('forum_login_otp', '1234');
-      }
-    })
-    .catch(error => {
-      console.error(error);
-      alert('（網路連線中斷）已啟用備用登入，請輸入預設碼 1234 進行登入。');
-      sessionStorage.setItem('forum_login_otp', '1234');
-    });
+      });
+    } else {
+      // Fallback: Send to Marcus's admin email via Web3Forms
+      const MARCUS_KEY = '506b3292-2a33-4fb0-8606-3ff8d8eb8935';
+      const mailData = {
+        access_key: MARCUS_KEY,
+        name: '丰泰技術討論區',
+        email: 'noreply@fort-instru.com',
+        subject: '【丰泰技研】討論區登入驗證碼',
+        message: `有使用者嘗試以信箱 ${email} 登入丰泰官方技術討論區。\n\n您的 4 位數登入驗證碼為：${generatedCode}\n\n請在討論區登入視窗中輸入此驗證碼以完成登入。`
+      };
+
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(mailData)
+      })
+      .then(async (response) => {
+        if (response.status === 200) {
+          alert(`【展示模式】\n驗證碼已發送至管理員信箱（marcus.liang@fort-instru.com），請向管理員索取 4 位數驗證碼以模擬登入。`);
+        } else {
+          console.error('Web3Forms failed to deliver OTP');
+          alert('（信件發送伺服器繁忙）已啟用備用登入，請輸入預設碼 1234 進行登入。');
+          sessionStorage.setItem('forum_login_otp', '1234');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        alert('（網路連線中斷）已啟用備用登入，請輸入預設碼 1234 進行登入。');
+        sessionStorage.setItem('forum_login_otp', '1234');
+      });
+    }
 
     countdownTimer = setInterval(() => {
       seconds--;
@@ -1246,7 +1283,11 @@ function initForum() {
     const sentCode = sessionStorage.getItem('forum_login_otp') || '1234';
 
     if (code !== sentCode) {
-      alert(`驗證碼錯誤！請輸入寄送到信箱 marcus.liang@fort-instru.com 中的 4 位驗證碼。`);
+      if (EMAILJS_PUBLIC_KEY && EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID) {
+        alert(`驗證碼錯誤！請輸入寄送到您的信箱 ${email} 中的 4 位驗證碼。`);
+      } else {
+        alert(`驗證碼錯誤！請輸入寄送到管理員信箱 中的 4 位驗證碼。`);
+      }
       return;
     }
 

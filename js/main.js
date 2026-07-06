@@ -1009,8 +1009,11 @@ function initForum() {
 
   if (!postsListContainer) return;
 
-  // 1. Initialize Forum Posts (with ExtendsClass + CORS Proxy integration)
-  const CLOUD_BIN_URL = 'https://extendsclass.com/api/json-storage/bin/ebcedca';
+  // 1. Initialize Forum Posts (with JSONBin.io integration)
+  // To enable cross-device real-time sync, paste your JSONBin.io Master Key & Bin ID here:
+  const JSONBIN_API_KEY = ''; // e.g. '$2b$10$...'
+  const JSONBIN_BIN_ID = '';  // e.g. '65...'
+
   let posts = DEFAULT_FORUM_POSTS;
   
   // Use localStorage cache for instant initial rendering
@@ -1046,56 +1049,66 @@ function initForum() {
     }
   }
 
-  // Sync to ExtendsClass cloud database via CORS proxy
+  // Sync to cloud database
   function syncCloudPosts() {
     localStorage.setItem('forum_posts', JSON.stringify(posts));
-    updateDbStatus('loading', '正在將您的變更同步至雲端資料庫...');
-    fetch('https://corsproxy.io/?' + CLOUD_BIN_URL, {
+    
+    if (!JSONBIN_API_KEY || !JSONBIN_BIN_ID) {
+      updateDbStatus('warning', '【展示模式】當前為本地離線模式。若需啟用跨裝置即時同步，請提供 JSONBin API 金鑰與 Bin ID。');
+      return;
+    }
+
+    updateDbStatus('loading', '正在將您的變更同步至 JSONBin 雲端資料庫...');
+    fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-Master-Key': JSONBIN_API_KEY
       },
       body: JSON.stringify(posts)
     })
     .then(res => {
       if (res.ok) {
-        updateDbStatus('success', '變更已成功同步至雲端資料庫！');
+        updateDbStatus('success', '變更已成功同步至 JSONBin 雲端資料庫！');
       } else {
         throw new Error('HTTP ' + res.status);
       }
     })
     .catch(err => {
-      console.error('Failed to sync to cloud database:', err);
-      if (window.location.protocol === 'file:') {
-        updateDbStatus('error', '瀏覽器安全限制：本機檔案 (file://) 拒絕外部連線，無法同步至雲端資料庫。請在 Vercel 線上環境測試！');
-      } else {
-        updateDbStatus('error', '同步失敗：' + err.message + '，目前留言暫存於您的瀏覽器。');
-      }
+      console.error('Failed to sync to JSONBin:', err);
+      updateDbStatus('error', '同步失敗：' + err.message + '，目前留言暫存於您的瀏覽器。');
     });
   }
 
   function fetchCloudPosts() {
-    updateDbStatus('loading', '正在嘗試從雲端資料庫獲取最新討論內容...');
-    fetch('https://corsproxy.io/?' + CLOUD_BIN_URL + '&nocache=' + Date.now())
+    if (!JSONBIN_API_KEY || !JSONBIN_BIN_ID) {
+      updateDbStatus('warning', '【展示模式】當前為本地離線模式。若需啟用跨裝置即時同步，請提供 JSONBin API 金鑰與 Bin ID。');
+      return;
+    }
+
+    updateDbStatus('loading', '正在嘗試從 JSONBin 獲取最新討論內容...');
+    fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+      method: 'GET',
+      headers: {
+        'X-Master-Key': JSONBIN_API_KEY
+      }
+    })
     .then(res => {
       if (!res.ok) throw new Error('HTTP ' + res.status);
       return res.json();
     })
-    .then(data => {
+    .then(resBody => {
+      const data = resBody.record;
       if (Array.isArray(data)) {
         posts = data;
         localStorage.setItem('forum_posts', JSON.stringify(posts));
-        updateDbStatus('success', '雲端資料庫連連成功！留言與討論內容已即時同步。');
+        updateDbStatus('success', 'JSONBin 雲端資料庫連線成功！留言與討論內容已即時同步。');
         renderPosts();
       }
     })
     .catch(err => {
-      console.error('Failed to fetch from cloud database:', err);
-      if (window.location.protocol === 'file:') {
-        updateDbStatus('error', '瀏覽器安全限制：您當前是透過本機檔案 (file://) 瀏覽。請使用線上 Vercel 網址，或於本機啟動 Live Server 伺服器以啟用雲端同步！');
-      } else {
-        updateDbStatus('error', '連線失敗：' + err.message + '，當前為本地離線快取模式。');
-      }
+      console.error('Failed to fetch from JSONBin:', err);
+      updateDbStatus('error', '連線失敗：' + err.message + '，當前為本地離線快取模式。');
     });
   }
 

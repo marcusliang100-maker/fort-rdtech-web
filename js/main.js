@@ -555,9 +555,9 @@ function initContactForm() {
     // Define access keys for each email. If placeholder key is found, fall back to Marcus's key.
     const MARCUS_KEY = '506b3292-2a33-4fb0-8606-3ff8d8eb8935';
     const KEY_MAPPING = {
-      'chem': { key: 'YOUR_CHEM_ACCESS_KEY_HERE', email: 'tongsimiao@fort-instru.com', label: '化學' },
+      'chem': { key: '9ad2a588-fed1-475c-bce6-1be37b2cfcc1', email: 'tongsimiao@fort-instru.com', label: '化學' },
       'measure': { key: MARCUS_KEY, email: 'marcus.liang@fort-instru.com', label: '量測' },
-      'agri': { key: 'YOUR_AGRI_ACCESS_KEY_HERE', email: 'tongsimiao@fort-instru.com', label: '農業' },
+      'agri': { key: '9ad2a588-fed1-475c-bce6-1be37b2cfcc1', email: 'tongsimiao@fort-instru.com', label: '農業' },
       'auto': { key: 'YOUR_AUTO_ACCESS_KEY_HERE', email: 'kiwi.chen@fort-instru.com', label: '自動化' }
     };
 

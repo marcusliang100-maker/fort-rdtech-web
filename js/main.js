@@ -1181,8 +1181,8 @@ function initForum() {
   // EmailJS Configuration (To verify sender's own email, sign up at EmailJS.com and fill these fields.
   // If left empty, it will fall back to sending the verification code to Marcus's admin mailbox).
   const EMAILJS_PUBLIC_KEY = '';   // e.g. 'user_xxxx' or 'xxxx'
-  const EMAILJS_SERVICE_ID = '';   // e.g. 'service_xxxx'
-  const EMAILJS_TEMPLATE_ID = '';  // e.g. 'template_xxxx'
+  const EMAILJS_SERVICE_ID = 'service_fwyt21q';   
+  const EMAILJS_TEMPLATE_ID = 'template_yi7vck6';  
 
   // Send Code handler
   sendCodeBtn.addEventListener('click', () => {

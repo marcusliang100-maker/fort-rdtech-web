@@ -1011,8 +1011,8 @@ function initForum() {
 
   // 1. Initialize Forum Posts (with JSONBin.io integration)
   // To enable cross-device real-time sync, paste your JSONBin.io Master Key & Bin ID here:
-  const JSONBIN_API_KEY = ''; // e.g. '$2b$10$...'
-  const JSONBIN_BIN_ID = '';  // e.g. '65...'
+  const JSONBIN_API_KEY = '$2a$10$dyD3z1qqfjVPAbACVskqTu2cQm1w1GoeutVQgtN11nP8ojJGk8gjO'; 
+  const JSONBIN_BIN_ID = '6a4b5b0af5f4af5e29654352';  
 
   let posts = DEFAULT_FORUM_POSTS;
   

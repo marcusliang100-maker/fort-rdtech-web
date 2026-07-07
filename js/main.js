@@ -558,7 +558,7 @@ function initContactForm() {
       'chem': { key: '9ad2a588-fed1-475c-bce6-1be37b2cfcc1', email: 'tongsimiao@fort-instru.com', label: '化學' },
       'measure': { key: MARCUS_KEY, email: 'marcus.liang@fort-instru.com', label: '量測' },
       'agri': { key: '9ad2a588-fed1-475c-bce6-1be37b2cfcc1', email: 'tongsimiao@fort-instru.com', label: '農業' },
-      'auto': { key: 'YOUR_AUTO_ACCESS_KEY_HERE', email: 'kiwi.chen@fort-instru.com', label: '自動化' }
+      'auto': { key: '7115fa20-4804-4894-927e-260ec2483161', email: 'kiwi.chen@fort-instru.com', label: '自動化' }
     };
 
     const targetInfo = KEY_MAPPING[categoryVal] || KEY_MAPPING['measure'];

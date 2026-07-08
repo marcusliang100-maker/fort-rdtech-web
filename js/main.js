@@ -133,11 +133,11 @@ const UV_DATA = {
       type: '1.0-Gen-4 微乳膏型 (Micro-cream type)',
       chemical: '環氧樹脂基-SiO2二氧化矽填充膠 (Epoxy/SiO2 Filled)',
       workflow: [
-        '將樣件浸入 <strong>L0-Gen-4</strong> 瓶子液面下，並搭配<strong>安全加熱防護帽</strong>。',
+        '將樣件浸入 <strong>L0-Gen-4</strong> 瓶子液面下，瓶子並搭配<strong>安全加熱防護蓋</strong>。',
         '<strong>鎖緊蓋子</strong>以確保高溫下的氣密性，置於 <strong>80°C - 100°C 的高溫水浴</strong>中。',
         '高溫水浴靜置 <strong>24 至 96 小時</strong>（適用於高硬度與重防護場景）。',
-        '撬出已弱化、變脆或呈粉末狀的二氧化矽填充膠。',
-        '使用 <strong>Gen-0 專用溶劑</strong> 清洗數次，並置於 <strong>80°C - 100°C 烘箱</strong>中烘乾後重新組裝。'
+        '撬出已弱化、變脆或呈粘膏狀或粉末狀的二氧化矽填充膠。',
+        '先使用 <strong>L0-Gen-1 專用溶劑</strong> 清洗數次；再使用 <strong>Gen-0 專用溶劑</strong> 清洗數次，並置於 <strong>80°C - 100°C 烘箱</strong>中烘乾後重新組裝。'
       ],
       safety: '高溫操作警示：本劑在高溫下可能<strong>對 PC (聚碳酸酯) 表面造成損傷</strong>。請確保周遭零件皆能耐受 100°C 高溫。'
     },

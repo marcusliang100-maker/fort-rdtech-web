@@ -1379,6 +1379,7 @@ function initForum() {
   function renderPosts() {
     postsListContainer.innerHTML = '';
     const userEmail = getLoggedInUser();
+    const isAdmin = userEmail && userEmail.endsWith('@fort-instru.com');
 
     const filteredPosts = posts.filter(post => activeFilter === 'all' || post.category === activeFilter);
     
@@ -1405,24 +1406,38 @@ function initForum() {
       
       // Render replies HTML
       let repliesHtml = '';
-      post.replies.forEach(reply => {
+      post.replies.forEach((reply, replyIdx) => {
+        const deleteReplyBtn = isAdmin ? `
+          <button class="btn-delete-reply" data-post-id="${post.id}" data-reply-idx="${replyIdx}" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 0.85rem; padding: 2px 8px; margin-left: auto; display: flex; align-items: center; gap: 4px;">
+            <i class="fa-solid fa-trash-can"></i> 刪除
+          </button>
+        ` : '';
+
         repliesHtml += `
           <div class="reply-card">
             <div class="reply-meta">
               <span class="reply-author"><i class="fa-solid fa-circle-user"></i> ${reply.author}</span>
               <span class="reply-date">${reply.date}</span>
+              ${deleteReplyBtn}
             </div>
             <div class="reply-body">${reply.body}</div>
           </div>
         `;
       });
 
+      const deletePostBtn = isAdmin ? `
+        <button class="btn-delete-post" data-post-id="${post.id}" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 4px; padding: 4px 8px; margin-left: auto;">
+          <i class="fa-solid fa-trash-can"></i> 刪除貼文
+        </button>
+      ` : '';
+
       card.innerHTML = `
         <div class="post-meta-row">
-          <div class="post-meta-left">
+          <div class="post-meta-left" style="flex-grow: 1; display: flex; align-items: center; flex-wrap: wrap; gap: 10px;">
             <span class="post-category-tag tag-${post.category}">${categoryLabel}</span>
             <span class="post-author"><i class="fa-solid fa-user"></i> ${post.author}</span>
             <span class="post-date">${post.date}</span>
+            ${deletePostBtn}
           </div>
           <button class="post-like-btn ${isLiked ? 'liked' : ''}" data-post-id="${post.id}">
             <i class="fa-solid fa-heart"></i> <span>${post.likes || 0}</span>
@@ -1486,6 +1501,31 @@ function initForum() {
         const replyTextarea = replyForm.querySelector('.reply-textarea');
         handleReplySubmit(post.id, replyTextarea.value.trim());
       });
+
+      // Bind delete post and reply (admin only)
+      if (isAdmin) {
+        const delPostBtn = card.querySelector('.btn-delete-post');
+        if (delPostBtn) {
+          delPostBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (confirm('確定要永久刪除此討論主題（包含其下的所有回覆）嗎？')) {
+              handleDeletePost(post.id);
+            }
+          });
+        }
+
+        const delReplyBtns = card.querySelectorAll('.btn-delete-reply');
+        delReplyBtns.forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const postId = btn.getAttribute('data-post-id');
+            const replyIdx = parseInt(btn.getAttribute('data-reply-idx'));
+            if (confirm('確定要永久刪除此條回覆意見嗎？')) {
+              handleDeleteReply(postId, replyIdx);
+            }
+          });
+        });
+      }
     });
   }
 
@@ -1546,7 +1586,36 @@ function initForum() {
     }
   }
 
-  // 9. Initial Render calls
+  // 9. Handle Post & Reply Deletion (Admin Only)
+  function handleDeletePost(postId) {
+    posts = posts.filter(p => p.id !== postId);
+    syncCloudPosts();
+    renderPosts();
+  }
+
+  // 9.1 Handle Reply Deletion (Admin Only)
+  function handleDeleteReply(postId, replyIdx) {
+    const post = posts.find(p => p.id === postId);
+    if (post && post.replies) {
+      post.replies.splice(replyIdx, 1);
+      syncCloudPosts();
+      renderPosts();
+      // Keep replies area expanded after delete
+      const expandedArea = document.getElementById(`replies-${postId}`);
+      if (expandedArea) {
+        expandedArea.style.display = 'block';
+        const card = expandedArea.closest('.forum-post-card');
+        if (card) {
+          const toggleBtn = card.querySelector('.btn-toggle-replies');
+          if (toggleBtn) {
+            toggleBtn.innerHTML = `<i class="fa-solid fa-circle-chevron-up"></i> 收起回覆`;
+          }
+        }
+      }
+    }
+  }
+
+  // 10. Initial Render calls
   renderUserStatus();
   renderPosts();
 }

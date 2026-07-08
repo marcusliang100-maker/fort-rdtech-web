@@ -1379,7 +1379,7 @@ function initForum() {
   function renderPosts() {
     postsListContainer.innerHTML = '';
     const userEmail = getLoggedInUser();
-    const isAdmin = userEmail && userEmail.endsWith('@fort-instru.com');
+    const isAdmin = userEmail === 'marcus.liang@fort-instru.com';
 
     const filteredPosts = posts.filter(post => activeFilter === 'all' || post.category === activeFilter);
     

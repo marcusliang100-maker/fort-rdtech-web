@@ -674,7 +674,7 @@ function initPortfolioFilters() {
    ========================================================================== */
 const PRODUCT_DETAIL_DATA = {
   'agri-analyzer': {
-    title: '蔬果品質影像分析儀',
+    title: '蔬果品質影像分析儀【產品開發中，敬請期待】',
     category: '智慧農業科技',
     categoryClass: 'badge-agri',
     icon: '<i class="fa-solid fa-crop-simple"></i>',

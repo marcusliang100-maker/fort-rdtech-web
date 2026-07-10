@@ -90,47 +90,47 @@ function initActiveNavLink() {
 const UV_DATA = {
   solutions: {
     'L0-Gen-1': {
-      name: 'L0-Gen-1 微乳膏型解膠劑',
-      type: '1.0-Gen-1 微乳膏型 (Micro-cream type)',
+      name: 'L0-Gen-1 液態型解膠劑',
+      type: '1.0-Gen-1 液態型 (Liquid type)',
       chemical: '聚氨酯丙烯酸酯類壓克力 (Urethanes Acrylate)',
       workflow: [
         '將待處理樣件完全浸入 <strong>L0-Gen-1</strong> 瓶子液面下。',
         '在室溫下靜置浸泡約 <strong>0.5 至 2 小時</strong>（例如：CIS機板上的FPC塑膠貼）。',
         '待膠體弱化後，使用精細工具輕巧地將 UV 膠撬出並拉開。',
         '使用 <strong>Gen-0 專用溶劑</strong> 清洗樣件數次以清除殘膠。',
-        '置於室溫下吹乾，即可完成清洗與測量。'
+        '檢查無殘留後，置於 <strong>80°C - 100°C 烘箱</strong>中烘乾後重新組裝。'
       ],
       safety: '不含氯/氟/環烴，性質溫和安全，<strong>完全不傷害光學玻片與敏感基材</strong>。'
     },
     'L0-Gen-2': {
-      name: 'L0-Gen-2 微乳膏型解膠劑',
-      type: '1.0-Gen-2 微乳膏型 (Micro-cream type)',
+      name: 'L0-Gen-2 液態型解膠劑',
+      type: '1.0-Gen-2 液態型 (Liquid type)',
       chemical: '甲基丙烯酸酯/甲基壓克力 (Metha-acrylate)',
       workflow: [
         '將樣件放入 <strong>L0-Gen-2</strong> 容器中，使其沒入液面下。',
         '<strong>鎖緊瓶蓋</strong>以防溶劑揮發，並預置於 <strong>40°C - 60°C 的水浴</strong>環境中。',
         '進行水浴加溫約 <strong>2 至 6 小時</strong>。',
         '取出樣件，此時 UV 膠已軟化弱化，使用夾具或撬棒輕巧拉開膠體。',
-        '使用 <strong>Gen-0 專用溶劑</strong> 反覆清洗數次，並於室溫下吹乾。'
+        '使用 <strong>Gen-0 專用溶劑</strong> 徹底清洗數次，檢查無殘留後，置於 <strong>80°C - 100°C 烘箱</strong>中烘乾後重新組裝。'
       ],
       safety: '無毒環保配方，不含氯/氟成分，<strong>不傷害敏感的光學鏡片與玻璃表面</strong>。'
     },
     'L0-Gen-3': {
-      name: 'L0-Gen-3 微乳膏型解膠劑',
-      type: '1.0-Gen-3 微乳膏型 (Micro-cream type)',
+      name: 'L0-Gen-3 液態型解膠劑',
+      type: '1.0-Gen-3 液態型 (Liquid type)',
       chemical: '環氧樹脂基無填充膠 (Epoxy-based)',
       workflow: [
         '將樣件浸入 <strong>L0-Gen-3</strong> 瓶子液面下。',
         '<strong>務必鎖緊蓋子</strong>，將容器置於 <strong>50°C - 80°C 的水浴</strong>中。',
         '水浴加溫靜置 <strong>4 至 16 小時</strong>，期間可定期觀察膠體膨潤弱化狀態。',
         '弱化後小心撬出已失去黏性的環氧樹脂膠體。',
-        '使用 <strong>Gen-0 專用溶劑</strong> 徹底清洗數次，檢查無殘留後即可重新裝配。'
+        '使用 <strong>Gen-0 專用溶劑</strong> 徹底清洗數次，檢查無殘留後，置於 <strong>80°C - 100°C 烘箱</strong>中烘乾後重新組裝。'
       ],
       safety: '注意：此高強度溶劑<strong>有可能輕微溶脹或損害 PC (聚碳酸酯) 材質表面</strong>。若周遭包含 PC 材質，請縮短浸泡時間或局部施作。'
     },
     'L0-Gen-4': {
-      name: 'L0-Gen-4 微乳膏型解膠劑 (高溫型)',
-      type: '1.0-Gen-4 微乳膏型 (Micro-cream type)',
+      name: 'L0-Gen-4 液態型解膠劑 (高溫型)',
+      type: '1.0-Gen-4 液態型 (Liquid type)',
       chemical: '環氧樹脂基-SiO2二氧化矽填充膠 (Epoxy/SiO2 Filled)',
       workflow: [
         '將樣件浸入 <strong>L0-Gen-4</strong> 瓶子液面下，瓶子並搭配<strong>安全加熱防護蓋</strong>。',

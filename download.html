@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>資料下載專區 | 丰泰技研股份有限公司 - 技術白皮書與發表期刊</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="訪問丰泰技研下載專區。獲取我們最新的農業科技近紅外光譜技術白皮書、功能化材施肥報告、與無損解膠製程學術期刊發表等專業研究文獻。">
+  <meta name="keywords" content="技術白皮書, 學術期刊, 丰泰下載, 農業科技白皮書, 無損解膠論文, 研究報告">
+  <meta name="author" content="丰泰技研股份有限公司">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2L2 22h20L12 2zm0 4l6.5 13H5.5L12 6z' fill='%230ea5e9'/%3E%3C/svg%3E">
+
+  <!-- Core CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* Custom style overrides for Download Page */
+    .download-hero {
+      background: linear-gradient(135deg, var(--sky-blue-soft) 0%, var(--bg-primary) 100%);
+      padding: 120px 24px 60px;
+      text-align: center;
+      border-bottom: 1px solid var(--border-light);
+    }
+    
+    .search-filter-section {
+      background-color: var(--bg-primary);
+      padding: 40px 24px;
+      border-bottom: 1px solid var(--border-light);
+      position: sticky;
+      top: 70px;
+      z-index: 10;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    }
+
+    .search-container {
+      max-width: 600px;
+      margin: 0 auto 24px;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 16px 20px 16px 50px;
+      border: 2px solid var(--border-light);
+      border-radius: 50px;
+      font-size: 1rem;
+      color: var(--text-main);
+      background-color: var(--bg-secondary);
+      transition: var(--transition-normal);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background-color: var(--bg-primary);
+      box-shadow: 0 0 15px rgba(14, 165, 233, 0.15);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+      font-size: 1.2rem;
+    }
+
+    .filter-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .filter-tab-btn {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      color: var(--text-muted);
+      padding: 10px 24px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: var(--transition-normal);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .filter-tab-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--bg-primary);
+    }
+
+    .filter-tab-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+    }
+
+    .download-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 30px;
+      padding: 60px 0;
+    }
+
+    .download-card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: var(--transition-normal);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .download-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--primary);
+      opacity: 0;
+      transition: var(--transition-normal);
+    }
+
+    .download-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.05);
+      border-color: var(--primary-light);
+    }
+
+    .download-card:hover::after {
+      opacity: 1;
+    }
+
+    .card-top {
+      margin-bottom: 20px;
+    }
+
+    .doc-type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+    }
+
+    .badge-whitepaper {
+      background: rgba(14, 165, 233, 0.1);
+      color: var(--primary);
+    }
+
+    .badge-journal {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+
+    .badge-manual {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+    }
+
+    .doc-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 12px;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      height: 3.5rem;
+    }
+
+    .doc-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      height: 4.3rem;
+    }
+
+    .doc-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border-light);
+      padding-top: 16px;
+      margin-top: auto;
+    }
+
+    .meta-item {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .download-btn {
+      width: 100%;
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: var(--transition-normal);
+    }
+
+    /* Progress Modal Style */
+    .progress-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .progress-modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .progress-card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-light);
+      border-radius: 24px;
+      padding: 40px;
+      width: 90%;
+      max-width: 450px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+      transform: scale(0.9);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .progress-modal.active .progress-card {
+      transform: scale(1);
+    }
+
+    .progress-icon {
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      animation: bounce 2s infinite;
+    }
+
+    .progress-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .progress-status {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .progress-bar-bg {
+      background: var(--bg-secondary);
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .progress-bar-fill {
+      background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+      width: 0%;
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.1s linear;
+    }
+
+    .progress-percent {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================================
+       Header & Navigation
+       ========================================================================== -->
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="logo" id="nav-logo">
+        <img src="images/logo.jpg" alt="丰泰技研 Logo" class="logo-img">
+        <div class="logo-text">
+          丰泰技研
+          <span>Fort RDTech</span>
+        </div>
+      </a>
+      
+      <nav class="nav-menu" id="nav-menu">
+        <a href="about.html" class="nav-link" id="link-about">關於我們</a>
+        <a href="services.html" class="nav-link" id="link-services">技術與服務</a>
+        <a href="selector.html" class="nav-link" id="link-selector">解膠選擇器</a>
+        <a href="science.html" class="nav-link" id="link-science">科普文章</a>
+        <a href="portfolio.html" class="nav-link" id="link-portfolio">產品成果</a>
+        <a href="download.html" class="nav-link" id="link-download">下載專區</a>
+        <a href="forum.html" class="nav-link" id="link-forum">討論區</a>
+        <a href="contact.html" class="nav-link" id="link-contact">聯絡我們</a>
+      </nav>
+      
+      <div class="nav-cta">
+        <a href="contact.html" class="btn btn-primary" id="btn-nav-cta">諮詢方案</a>
+      </div>
+      
+      <button class="hamburger" id="nav-hamburger" aria-label="Toggle Navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       Inner Page Hero Section
+       ========================================================================== -->
+  <section class="download-hero">
+    <div class="container" style="max-width: 800px;">
+      <div class="section-tag">DOCUMENT DOWNLOAD CENTER</div>
+      <h1 style="font-size: 2.8rem; font-weight: 800; margin-bottom: 16px; color: var(--text-main);">資料下載專區</h1>
+      <p style="font-size: 1.15rem; color: var(--text-muted); line-height: 1.6;">
+        在這裡，我們提供丰泰技研最新發表的學術期刊論文、研發技術白皮書、以及各類產品製程 SOP 操作手冊，協助您深入了解我們的尖端科研與工業實踐成果。
+      </p>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       Search & Filter Sticky Section
+       ========================================================================== -->
+  <section class="search-filter-section">
+    <div class="container">
+      <div class="search-container">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" class="search-input" id="search-input" placeholder="輸入關鍵字搜尋文獻資源（如：多光譜、解膠、光合作用...）">
+      </div>
+      
+      <div class="filter-tabs">
+        <button class="filter-tab-btn active" data-filter="all">
+          <i class="fa-solid fa-list"></i> 全部資源 (<span id="count-all">0</span>)
+        </button>
+        <button class="filter-tab-btn" data-filter="whitepaper">
+          <i class="fa-solid fa-file-invoice"></i> 技術白皮書 (<span id="count-whitepaper">0</span>)
+        </button>
+        <button class="filter-tab-btn" data-filter="journal">
+          <i class="fa-solid fa-graduation-cap"></i> 發表期刊論文 (<span id="count-journal">0</span>)
+        </button>
+        <button class="filter-tab-btn" data-filter="manual">
+          <i class="fa-solid fa-book"></i> 產品技術手冊 (<span id="count-manual">0</span>)
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       Download Cards List Section
+       ========================================================================== -->
+  <section style="background-color: var(--bg-secondary); padding: 20px 24px 80px;">
+    <div class="container">
+      <div class="download-grid" id="download-grid">
+        <!-- Rendered dynamically via JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       Footer
+       ========================================================================== -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <a href="index.html" class="logo">
+          <img src="images/logo.jpg" alt="丰泰技研 Logo" class="logo-img">
+          <div class="logo-text">丰泰技研</div>
+        </a>
+        <p class="footer-brand-desc">
+          丰泰技研股份有限公司 (Fort RDTech Co., Ltd.) 致力於利用現代前沿科技，賦能傳統農業升級，並研發安全無損的特用化學品，實踐環境永續與循環綠色未來。
+        </p>
+      </div>
+      
+      <div class="footer-col">
+        <h4>快速連結</h4>
+        <ul class="footer-links">
+          <li><a href="about.html" class="footer-link">關於我們</a></li>
+          <li><a href="services.html" class="footer-link">核心技術</a></li>
+          <li><a href="selector.html" class="footer-link">解膠選擇器</a></li>
+          <li><a href="science.html" class="footer-link">科普學堂</a></li>
+          <li><a href="portfolio.html" class="footer-link">產品成果</a></li>
+          <li><a href="download.html" class="footer-link">下載專區</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-col">
+        <h4>聯絡資訊</h4>
+        <ul class="footer-links">
+          <li class="footer-link"><i class="fa-solid fa-envelope" style="margin-right: 6px;"></i> marcus.liang@fort-instru.com</li>
+          <li class="footer-link"><i class="fa-solid fa-phone" style="margin-right: 6px;"></i> +886-910-245379</li>
+          <li class="footer-link"><i class="fa-solid fa-location-dot" style="margin-right: 6px;"></i> 台中市南屯區嶺東路1號</li>
+        </ul>
+      </div>
+      
+      <div class="footer-col">
+        <h4>訂閱技術動態</h4>
+        <p class="footer-brand-desc" style="margin-top: 0; margin-bottom: 12px; font-size: 0.85rem;">我們將定期與您分享最新的農業科技化材與無損解膠製程的最新研究進展。</p>
+        <form class="newsletter-form" onsubmit="event.preventDefault(); alert('感謝您的訂閱！'); this.reset();">
+          <input class="newsletter-input" type="email" placeholder="您的 Email 地址" required>
+          <button type="submit" class="btn btn-primary" style="padding: 10px 16px; border-radius: 8px;"><i class="fa-solid fa-chevron-right"></i></button>
+        </form>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2026 丰泰技研股份有限公司 Fort RDTech Co., Ltd. 版權所有.</p>
+      <div style="display: flex; gap: 20px;">
+        <a href="#" class="footer-link" style="font-size: 0.8rem;">隱私權政策</a>
+        <a href="#" class="footer-link" style="font-size: 0.8rem;">服務條款</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       Interactive Download Progress Modal
+       ========================================================================== -->
+  <div class="progress-modal" id="progress-modal">
+    <div class="progress-card">
+      <div class="progress-icon" id="progress-icon">
+        <i class="fa-solid fa-file-pdf"></i>
+      </div>
+      <div class="progress-title" id="progress-title">技術白皮書</div>
+      <div class="progress-status" id="progress-status">🔍 正在進行文件安全掃描...</div>
+      
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-bar-fill"></div>
+      </div>
+      <div class="progress-percent" id="progress-percent">0%</div>
+    </div>
+  </div>
+
+  <!-- Core JavaScript -->
+  <script src="js/main.js"></script>
+
+  <!-- Page Logic -->
+  <script>
+    // 1. Documents Database
+    const DOCUMENTS = [
+      {
+        id: 'nirs-whitepaper',
+        type: 'whitepaper',
+        title: '丰泰近紅外光譜（NIRS）蔬果甜度與內部缺陷檢測白皮書 v2.1',
+        desc: '本白皮書詳細論述了丰泰無損近紅外光譜（NIRS）在蔬果品質分析儀中的應用。介紹了多光譜無損穿透量測技術、果肉糖酸比的特徵光譜指紋識別、以及在 5 秒內精準識別水心病與黑心等內部病變缺陷的演算法與硬體設計架構。',
+        fileSize: '4.2 MB',
+        date: '2026-03',
+        downloads: '142'
+      },
+      {
+        id: 'ai-multispectral-journal',
+        type: 'journal',
+        title: '基於邊緣運算 AI 與多光譜相機的高吞吐量多重農作分選技術研究',
+        desc: '發表於《農業工程學報》。本論文探討了在高吞吐量（每秒 5 顆以上）的分選流水線上，如何利用高畫質多光譜相機實時拍攝並透過邊緣運算晶片對蘋果、草莓、鳳梨等作物的外部外觀與內部糖度進行實時多維度融合分類的深度神經網絡模型與實驗測試數據。',
+        fileSize: '6.8 MB',
+        date: '2025-11',
+        downloads: '98'
+      },
+      {
+        id: 'epoxy-debonding-whitepaper',
+        type: 'whitepaper',
+        title: '半導體封裝與精密光電組件「膨潤-溶脹」協同解UV膠/熱固膠機制技術白皮書',
+        desc: '深入剖析高分子環氧樹脂與丙烯酸酯類交聯網格在化學溶劑中的動態響應。詳細論述了丰泰 L0-Gen-4 微乳膏與 LC0-Gen-5 防滴膏如何利用特定膨潤助劑降低高分子鏈段間的次級鍵力，配合 80°C~100°C 烘烤熱動能，實現在完全不傷金屬與光學鏡片表面前提下的無損剝離機制。',
+        fileSize: '3.5 MB',
+        date: '2026-05',
+        downloads: '185'
+      },
+      {
+        id: 'green-recycle-journal',
+        type: 'journal',
+        title: '綠色永續溶劑在電子零組件與多層 PCB 回收中之無損剝離效能分析',
+        desc: '發表於《綠色化學與循環經濟》。本研究以實驗數據驗證了丰泰環保解膠溶劑對多層 PCB 板組件（如 FPC 軟板、CIS 影像感測器模組）在解膠重工過程中的金屬導線零侵蝕、高分子基材零溶脹特性，論證了該方案在促進電子廢棄物高值化回收與綠色循環的經濟與環保效益。',
+        fileSize: '5.1 MB',
+        date: '2025-08',
+        downloads: '73'
+      },
+      {
+        id: 'rubisco-fix-whitepaper',
+        type: 'whitepaper',
+        title: '特定光能轉換複合物對作物葉綠素 Rubisco 碳固定酶活性與光能轉換率影響白皮書',
+        desc: '探討丰泰新一代「光合作用促進劑」在分子生理層面的作用機制。白皮書揭示了特定光能轉換複合物（複核有機金屬螯合物）如何將不可吸收的紫外線轉化為可供葉綠素直接利用的紅藍光，並進而活化 Rubisco 碳固定酶，提高弱光環境下的碳同化速率。',
+        fileSize: '2.9 MB',
+        date: '2026-01',
+        downloads: '120'
+      },
+      {
+        id: 'fertilizer-pineapple-report',
+        type: 'manual',
+        title: '丰泰光合作用促進劑（鳳梨與草莓田間施作）田間操作 SOP 與效果對比手冊',
+        desc: '專為農業現場操作人員設計的指導手冊。本手冊詳細載明了光合作用促進劑的精準稀釋倍數、葉面噴施週期、施作氣候與時間建議，並收錄了於台中南屯及田間實測中施用後鳳梨與草莓在葉綠素 SPAD 值、光合速率與最终糖度提升 1.5°Brix 以上的完整對比數據。',
+        fileSize: '4.7 MB',
+        date: '2025-09',
+        downloads: '210'
+      }
+    ];
+
+    // 2. DOM Elements
+    const searchInput = document.getElementById('search-input');
+    const downloadGrid = document.getElementById('download-grid');
+    const filterBtns = document.querySelectorAll('.filter-tab-btn');
+    const progressModal = document.getElementById('progress-modal');
+    const progressBarFill = document.getElementById('progress-bar-fill');
+    const progressPercent = document.getElementById('progress-percent');
+    const progressStatus = document.getElementById('progress-status');
+    const progressTitle = document.getElementById('progress-title');
+    const progressIcon = document.getElementById('progress-icon');
+
+    let currentFilter = 'all';
+    let searchQuery = '';
+
+    // 3. Update Category Badge Counts
+    function updateCounts() {
+      document.getElementById('count-all').innerText = DOCUMENTS.length;
+      document.getElementById('count-whitepaper').innerText = DOCUMENTS.filter(d => d.type === 'whitepaper').length;
+      document.getElementById('count-journal').innerText = DOCUMENTS.filter(d => d.type === 'journal').length;
+      document.getElementById('count-manual').innerText = DOCUMENTS.filter(d => d.type === 'manual').length;
+    }
+
+    // 4. Render Grid Items
+    function renderGrid() {
+      downloadGrid.innerHTML = '';
+      
+      const filtered = DOCUMENTS.filter(doc => {
+        const matchesCategory = currentFilter === 'all' || doc.type === currentFilter;
+        const matchesSearch = doc.title.includes(searchQuery) || doc.desc.includes(searchQuery);
+        return matchesCategory && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        downloadGrid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 80px 24px; background: var(--bg-primary); border-radius: 24px; border: 1px solid var(--border-light);">
+            <i class="fa-solid fa-file-circle-xmark" style="font-size: 3.5rem; color: var(--text-light); margin-bottom: 20px;"></i>
+            <h3 style="font-size: 1.3rem; margin-bottom: 8px; color: var(--text-main);">未找到匹配的文獻資源</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">請嘗試調整您的搜尋關鍵字或選擇其他分類標籤。</p>
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(doc => {
+        let typeBadge = '';
+        let typeIcon = '';
+        let cardColorClass = '';
+        
+        if (doc.type === 'whitepaper') {
+          typeBadge = '<span class="doc-type-badge badge-whitepaper"><i class="fa-solid fa-file-invoice"></i> 技術白皮書</span>';
+          typeIcon = 'fa-file-pdf';
+          cardColorClass = 'color-1'; // matches style.css theme card colors
+        } else if (doc.type === 'journal') {
+          typeBadge = '<span class="doc-type-badge badge-journal"><i class="fa-solid fa-graduation-cap"></i> 期刊論文</span>';
+          typeIcon = 'fa-book-open';
+          cardColorClass = 'color-2';
+        } else if (doc.type === 'manual') {
+          typeBadge = '<span class="doc-type-badge badge-manual"><i class="fa-solid fa-book"></i> 操作手冊</span>';
+          typeIcon = 'fa-screwdriver-wrench';
+          cardColorClass = 'color-3';
+        }
+
+        const card = document.createElement('div');
+        card.className = `download-card`;
+        card.innerHTML = `
+          <div class="card-top">
+            ${typeBadge}
+            <h3 class="doc-title" title="${doc.title}">${doc.title}</h3>
+            <p class="doc-desc">${doc.desc}</p>
+          </div>
+          <div>
+            <div class="doc-meta">
+              <span class="meta-item"><i class="fa-solid fa-database"></i> ${doc.fileSize}</span>
+              <span class="meta-item"><i class="fa-solid fa-calendar-days"></i> ${doc.date}</span>
+              <span class="meta-item"><i class="fa-solid fa-download"></i> 已下載 ${doc.downloads} 次</span>
+            </div>
+            <button class="btn btn-primary download-btn" onclick="startSimulatedDownload('${doc.title}', '${doc.type}')">
+              <i class="fa-solid fa-cloud-arrow-down"></i> 下載 PDF 資源
+            </button>
+          </div>
+        `;
+        downloadGrid.appendChild(card);
+      });
+    }
+
+    // 5. Interactive Simulated Download Animation
+    window.startSimulatedDownload = function(title, type) {
+      // Set modal info
+      progressTitle.innerText = title;
+      progressStatus.innerText = '🔍 正在進行安全認證與加密掃描...';
+      progressBarFill.style.width = '0%';
+      progressPercent.innerText = '0%';
+      
+      let iconHtml = '<i class="fa-solid fa-file-pdf"></i>';
+      if (type === 'journal') iconHtml = '<i class="fa-solid fa-graduation-cap"></i>';
+      else if (type === 'manual') iconHtml = '<i class="fa-solid fa-screwdriver-wrench"></i>';
+      progressIcon.innerHTML = iconHtml;
+
+      // Show modal
+      progressModal.classList.add('active');
+
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += Math.floor(Math.random() * 15) + 5;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(interval);
+          
+          progressBarFill.style.width = '100%';
+          progressPercent.innerText = '100%';
+          progressStatus.innerText = '✅ 安全認證通過！正在儲存至本機...';
+          
+          setTimeout(() => {
+            // Close modal
+            progressModal.classList.remove('active');
+            
+            // Trigger browser mock download
+            const blob = new Blob([`丰泰技研 (Fort RDTech) - ${title}\n這是一個模擬的學術/白皮書下載展示檔案。\n若需要完整白皮書或商業技術手冊，歡迎與我們取得聯繫！`], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${title}.txt`;
+            link.click();
+            URL.revokeObjectURL(link.href);
+          }, 800);
+        } else {
+          progressBarFill.style.width = `${progress}%`;
+          progressPercent.innerText = `${progress}%`;
+          if (progress > 40 && progress < 80) {
+            progressStatus.innerText = '📥 正在連接安全下載節點...';
+          } else if (progress >= 80) {
+            progressStatus.innerText = '🚀 正在傳輸加密數據流...';
+          }
+        }
+      }, 100);
+    };
+
+    // 6. Bind Event Listeners
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value.trim();
+      renderGrid();
+    });
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.getAttribute('data-filter');
+        renderGrid();
+      });
+    });
+
+    // 7. Initial load
+    updateCounts();
+    renderGrid();
+  </script>
+</body>
+</html>

@@ -504,6 +504,78 @@
     </div>
   </div>
 
+  <!-- ==========================================================================
+       Download Verification Modal (Artilux Style)
+       ========================================================================== -->
+  <div class="progress-modal" id="verification-modal">
+    <div class="progress-card" style="max-width: 500px; text-align: left; padding: 30px; position: relative;">
+      <button id="close-verify-btn" style="position: absolute; right: 20px; top: 20px; background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; transition: color 0.2s;"><i class="fa-solid fa-xmark"></i></button>
+      
+      <div style="text-align: center; margin-bottom: 24px;">
+        <div style="width: 56px; height: 56px; background: rgba(14, 165, 233, 0.1); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 1.6rem;">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--text-main); margin-bottom: 6px;">下載安全驗證</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">為了保障學術文獻與技術專利權益，請完成電子郵件驗證以取得下載權限。</p>
+      </div>
+
+      <form id="verify-form" onsubmit="event.preventDefault();">
+        <div style="display: grid; gap: 14px;">
+          <!-- Email Input with button -->
+          <div>
+            <label style="display: block; font-size: 0.85rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">* 電子郵件 (Email)</label>
+            <div style="display: flex; gap: 8px;">
+              <input type="email" id="verify-email" required placeholder="example@domain.com" style="flex-grow: 1; padding: 10px 14px; border: 1px solid var(--border-light); border-radius: 8px; background: var(--bg-secondary); color: var(--text-main); font-size: 0.9rem; outline: none; transition: border-color 0.2s;">
+              <button type="button" id="send-code-btn" class="btn btn-secondary" style="padding: 10px 16px; font-size: 0.85rem; white-space: nowrap; border-radius: 8px;">傳送驗證碼</button>
+            </div>
+            <span id="send-code-tip" style="display: block; font-size: 0.75rem; color: var(--primary); margin-top: 4px; font-weight: 500;"></span>
+          </div>
+
+          <!-- Verification Code Input -->
+          <div>
+            <label style="display: block; font-size: 0.85rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">* 輸入驗證碼 (Verification Code)</label>
+            <input type="text" id="verify-code" required placeholder="請輸入 4 位數驗證碼 (測試碼：8888)" style="width: 100%; padding: 10px 14px; border: 1px solid var(--border-light); border-radius: 8px; background: var(--bg-secondary); color: var(--text-main); font-size: 0.9rem; outline: none;">
+          </div>
+
+          <!-- Full Name -->
+          <div>
+            <label style="display: block; font-size: 0.85rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">* 您的姓名 (Full Name)</label>
+            <input type="text" id="verify-name" required placeholder="王大明" style="width: 100%; padding: 10px 14px; border: 1px solid var(--border-light); border-radius: 8px; background: var(--bg-secondary); color: var(--text-main); font-size: 0.9rem; outline: none;">
+          </div>
+
+          <!-- Company Name & Country (2 columns) -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div>
+              <label style="display: block; font-size: 0.85rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">* 公司/機構 (Company)</label>
+              <input type="text" id="verify-company" required placeholder="丰泰技研" style="width: 100%; padding: 10px 14px; border: 1px solid var(--border-light); border-radius: 8px; background: var(--bg-secondary); color: var(--text-main); font-size: 0.9rem; outline: none;">
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.85rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">* 國家/地區 (Country)</label>
+              <input type="text" id="verify-country" required placeholder="臺灣" style="width: 100%; padding: 10px 14px; border: 1px solid var(--border-light); border-radius: 8px; background: var(--bg-secondary); color: var(--text-main); font-size: 0.9rem; outline: none;">
+            </div>
+          </div>
+
+          <!-- Message (Optional) -->
+          <div>
+            <label style="display: block; font-size: 0.85rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">留言或需求諮詢 (Message - 選填)</label>
+            <textarea id="verify-message" rows="2" placeholder="請描述您的實驗材料、解膠需求或肥料諮詢..." style="width: 100%; padding: 10px 14px; border: 1px solid var(--border-light); border-radius: 8px; background: var(--bg-secondary); color: var(--text-main); font-size: 0.9rem; outline: none; resize: none;"></textarea>
+          </div>
+
+          <!-- Terms Agreement Checkbox -->
+          <div style="display: flex; gap: 8px; align-items: flex-start; margin-top: 4px;">
+            <input type="checkbox" id="verify-agree" required style="margin-top: 3px; cursor: pointer;">
+            <label for="verify-agree" style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; cursor: pointer;">
+              我已閱讀並同意 <a href="#" style="color: var(--primary); text-decoration: underline;">隱私權政策</a> 與 <a href="#" style="color: var(--primary); text-decoration: underline;">服務條款</a>，並同意將資料加密傳送至丰泰技研以提供技術支援與後續服務。
+            </label>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 0.95rem; font-weight: 700; border-radius: 8px; margin-top: 8px;">驗證並下載文獻</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Core JavaScript -->
   <script src="js/main.js"></script>
 
@@ -652,8 +724,106 @@
       });
     }
 
-    // 5. Interactive Simulated Download Animation
+    // 5. Verification Modal & Cooldown Logic
+    const verifyModal = document.getElementById('verification-modal');
+    const closeVerifyBtn = document.getElementById('close-verify-btn');
+    const verifyForm = document.getElementById('verify-form');
+    const sendCodeBtn = document.getElementById('send-code-btn');
+    const sendCodeTip = document.getElementById('send-code-tip');
+    const verifyEmail = document.getElementById('verify-email');
+    const verifyCode = document.getElementById('verify-code');
+    const verifyName = document.getElementById('verify-name');
+    const verifyCompany = document.getElementById('verify-company');
+    const verifyCountry = document.getElementById('verify-country');
+    const verifyMessage = document.getElementById('verify-message');
+
+    let pendingDownload = null; // store {title, type}
+    let codeSent = false;
+
+    // Send Verification Code (Simulated)
+    sendCodeBtn.addEventListener('click', () => {
+      const email = verifyEmail.value.trim();
+      if (!email || !verifyEmail.checkValidity()) {
+        alert("請輸入有效的電子郵件地址！");
+        return;
+      }
+
+      sendCodeBtn.disabled = true;
+      codeSent = true;
+      sendCodeTip.innerText = "✨ [測試提示] 驗證碼已傳送至您的信箱，請輸入：8888";
+      
+      let seconds = 60;
+      sendCodeBtn.innerText = `重新傳送 (${seconds}s)`;
+      
+      const timer = setInterval(() => {
+        seconds--;
+        if (seconds <= 0) {
+          clearInterval(timer);
+          sendCodeBtn.disabled = false;
+          sendCodeBtn.innerText = "傳送驗證碼";
+        } else {
+          sendCodeBtn.innerText = `重新傳送 (${seconds}s)`;
+        }
+      }, 1000);
+    });
+
+    // Close Verification modal
+    closeVerifyBtn.addEventListener('click', () => {
+      verifyModal.classList.remove('active');
+    });
+
+    // Form Submit (Verification validation)
+    verifyForm.addEventListener('submit', () => {
+      const code = verifyCode.value.trim();
+      if (code !== '8888') {
+        alert("驗證碼輸入錯誤！請輸入測試驗證碼：8888");
+        return;
+      }
+
+      // Save verification status
+      localStorage.setItem('download_verified', 'true');
+      localStorage.setItem('user_info', JSON.stringify({
+        email: verifyEmail.value.trim(),
+        name: verifyName.value.trim(),
+        company: verifyCompany.value.trim(),
+        country: verifyCountry.value.trim(),
+        message: verifyMessage.value.trim()
+      }));
+
+      // Close modal
+      verifyModal.classList.remove('active');
+
+      // Trigger pending download
+      if (pendingDownload) {
+        executeDownload(pendingDownload.title, pendingDownload.type);
+        pendingDownload = null;
+      }
+    });
+
+    // Interceptor: Check if verified first
     window.startSimulatedDownload = function(title, type) {
+      const isVerified = localStorage.getItem('download_verified') === 'true';
+      if (isVerified) {
+        executeDownload(title, type);
+      } else {
+        pendingDownload = { title, type };
+        // Pre-fill if some info exists in localStorage
+        const storedInfo = localStorage.getItem('user_info');
+        if (storedInfo) {
+          try {
+            const info = JSON.parse(storedInfo);
+            verifyEmail.value = info.email || '';
+            verifyName.value = info.name || '';
+            verifyCompany.value = info.company || '';
+            verifyCountry.value = info.country || '臺灣';
+          } catch(e) {}
+        }
+        verifyModal.classList.add('active');
+      }
+    };
+
+    // 6. Interactive Simulated Download Animation Execution
+    function executeDownload(title, type) {
       // Set modal info
       progressTitle.innerText = title;
       progressStatus.innerText = '🔍 正在進行安全認證與加密掃描...';
@@ -684,7 +854,7 @@
             progressModal.classList.remove('active');
             
             // Trigger browser mock download
-            const blob = new Blob([`丰泰技研 (Fort RDTech) - ${title}\n這是一個模擬的學術/白皮書下載展示檔案。\n若需要完整白皮書或商業技術手冊，歡迎與我們取得聯繫！`], { type: 'text/plain;charset=utf-8' });
+            const blob = new Blob([`丰泰技研 (Fort RDTech) - ${title}\n這是一個經安全郵件驗證後下載的學術/白皮書展示檔案。\n感謝您的支持！聯絡我們以獲得更多技術合作資訊。`], { type: 'text/plain;charset=utf-8' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
             link.download = `${title}.txt`;
@@ -701,9 +871,9 @@
           }
         }
       }, 100);
-    };
+    }
 
-    // 6. Bind Event Listeners
+    // 7. Bind Event Listeners
     searchInput.addEventListener('input', (e) => {
       searchQuery = e.target.value.trim();
       renderGrid();
@@ -718,7 +888,7 @@
       });
     });
 
-    // 7. Initial load
+    // 8. Initial load
     updateCounts();
     renderGrid();
   </script>

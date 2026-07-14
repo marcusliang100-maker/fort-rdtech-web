@@ -98,7 +98,7 @@
         <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 6px; min-width: 0;">
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-              💡 語音導覽：如何選擇合適的解膠劑與正確操作 SOP
+              🎵 背景音樂
             </span>
             <span id="audio-time" style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); font-family: monospace;">00:00 / 00:00</span>
           </div>
@@ -494,7 +494,7 @@
           playIcon.style.marginLeft = '0px';
         }).catch(err => {
           console.error("Audio playback failed:", err);
-          alert("語音導覽檔加載中/未尋獲，請確認 'audio/selector-guide.mp3' 是否已放至網頁目錄資料夾中。");
+          alert("背景音樂檔加載中/未尋獲，請確認 'audio/selector-guide.mp3' 是否已放至網頁目錄資料夾中。");
         });
       } else {
         audio.pause();

@@ -98,7 +98,7 @@
         <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 6px; min-width: 0;">
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-              💡 Audio Guide: How to choose the right debonding agent & correct SOP
+              🎵 Background Music
             </span>
             <span id="audio-time" style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); font-family: monospace;">00:00 / 00:00</span>
           </div>
@@ -494,7 +494,7 @@
           playIcon.style.marginLeft = '0px';
         }).catch(err => {
           console.error("Audio playback failed:", err);
-          alert("Audio guide is loading or not found. Please confirm that 'audio/selector-guide.mp3' is placed in your project directory.");
+          alert("Background music is loading or not found. Please confirm that 'audio/selector-guide.mp3' is placed in your project directory.");
         });
       } else {
         audio.pause();

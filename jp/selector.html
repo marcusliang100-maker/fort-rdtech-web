@@ -98,7 +98,7 @@
         <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 6px; min-width: 0;">
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-              💡 音声ガイド：適切なデボンド剤の選択と正しいSOP
+              🎵 BGM
             </span>
             <span id="audio-time" style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); font-family: monospace;">00:00 / 00:00</span>
           </div>
@@ -494,7 +494,7 @@
           playIcon.style.marginLeft = '0px';
         }).catch(err => {
           console.error("Audio playback failed:", err);
-          alert("音声ガイドが読み込み中か見つかりません。'audio/selector-guide.mp3'がプロジェクトディレクトリに配置されているか確認してください。");
+          alert("背景音楽ファイルが読み込み中か見つかりません。'audio/selector-guide.mp3'がプロジェクトディレクトリに配置されているか確認してください。");
         });
       } else {
         audio.pause();

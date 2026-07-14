@@ -2657,3 +2657,117 @@ footer {
     grid-column: span 1 !important;
   }
 }
+
+/* ==========================================================================
+   Language Selector (多國語系切換器)
+   ========================================================================== */
+.lang-selector {
+  position: relative;
+  display: inline-block;
+}
+
+.lang-btn {
+  background: none;
+  border: 1px solid var(--border-light);
+  color: var(--text-main);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+}
+
+.lang-btn:hover {
+  border-color: var(--sky-blue);
+  color: var(--sky-blue);
+}
+
+.lang-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  min-width: 125px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+}
+
+.lang-selector:hover .lang-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.lang-dropdown a {
+  display: block;
+  padding: 10px 16px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.lang-dropdown a:first-child {
+  border-radius: 12px 12px 0 0;
+}
+
+.lang-dropdown a:last-child {
+  border-radius: 0 0 12px 12px;
+}
+
+.lang-dropdown a:hover {
+  background-color: var(--sky-blue-light);
+  color: var(--sky-blue);
+}
+
+.lang-dropdown a.active {
+  color: var(--sky-blue);
+  font-weight: 700;
+  background-color: rgba(14, 165, 233, 0.05);
+}
+
+/* Mobile Language Selector */
+.mobile-lang-selector {
+  display: none;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 20px;
+  border-top: 1px solid var(--border-light);
+  padding-top: 20px;
+}
+
+.mobile-lang-selector a {
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+}
+
+.mobile-lang-selector a.active {
+  color: var(--sky-blue);
+  background-color: var(--sky-blue-light);
+  border-color: rgba(14, 165, 233, 0.1);
+}
+
+@media (max-width: 991px) {
+  .mobile-lang-selector {
+    display: flex;
+  }
+}
+

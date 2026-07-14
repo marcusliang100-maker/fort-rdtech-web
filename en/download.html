@@ -738,9 +738,9 @@
     const verifyMessage = document.getElementById('verify-message');
 
     let pendingDownload = null; // store {title, type}
-    let codeSent = false;
+    let receivedToken = '';
 
-    // Send Verification Code (Simulated)
+    // Send Verification Code (Real fetch + fallback simulated)
     sendCodeBtn.addEventListener('click', () => {
       const email = verifyEmail.value.trim();
       if (!email || !verifyEmail.checkValidity()) {
@@ -749,22 +749,52 @@
       }
 
       sendCodeBtn.disabled = true;
-      codeSent = true;
-      sendCodeTip.innerText = "✨ [Test Mode] Code sent to your email, please enter: 8888";
-      
-      let seconds = 60;
-      sendCodeBtn.innerText = `Resend (${seconds}s)`;
-      
-      const timer = setInterval(() => {
-        seconds--;
-        if (seconds <= 0) {
-          clearInterval(timer);
+      sendCodeTip.style.color = 'var(--primary)';
+      sendCodeTip.innerText = "⏳ 正在Send Code...";
+
+      fetch('/api/send-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.error) {
+          sendCodeTip.style.color = '#ef4444';
+          sendCodeTip.innerText = "❌ 傳送失敗：" + data.error;
           sendCodeBtn.disabled = false;
-          sendCodeBtn.innerText = "Send Code";
-        } else {
-          sendCodeBtn.innerText = `Resend (${seconds}s)`;
+          return;
         }
-      }, 1000);
+
+        receivedToken = data.token;
+        
+        if (data.simulated) {
+          sendCodeTip.innerText = "✨ [Test Mode] Code sent to your email, please enter: 8888";
+        } else {
+          sendCodeTip.innerText = "✨ 驗證碼已寄出，請至信箱收信（可能在垃圾信箱中）。";
+        }
+
+        // Start countdown timer
+        let seconds = 60;
+        sendCodeBtn.innerText = `Resend (${seconds}s)`;
+        
+        const timer = setInterval(() => {
+          seconds--;
+          if (seconds <= 0) {
+            clearInterval(timer);
+            sendCodeBtn.disabled = false;
+            sendCodeBtn.innerText = "Send Code";
+          } else {
+            sendCodeBtn.innerText = `Resend (${seconds}s)`;
+          }
+        }, 1000);
+      })
+      .catch(err => {
+        console.error("Fetch send-code error:", err);
+        sendCodeTip.style.color = '#ef4444';
+        sendCodeTip.innerText = "❌ 無法連接伺服器，請稍後再試。";
+        sendCodeBtn.disabled = false;
+      });
     });
 
     // Close Verification modal
@@ -772,32 +802,61 @@
       verifyModal.classList.remove('active');
     });
 
-    // Form Submit (Verification validation)
+    // Form Submit (Verification validation via server)
     verifyForm.addEventListener('submit', () => {
       const code = verifyCode.value.trim();
-      if (code !== '8888') {
-        alert("Incorrect verification code! Please enter test code: 8888");
+      const email = verifyEmail.value.trim();
+
+      if (!receivedToken) {
+        alert("請先點選「Send Code」！");
         return;
       }
 
-      // Save verification status
-      localStorage.setItem('download_verified', 'true');
-      localStorage.setItem('user_info', JSON.stringify({
-        email: verifyEmail.value.trim(),
-        name: verifyName.value.trim(),
-        company: verifyCompany.value.trim(),
-        country: verifyCountry.value.trim(),
-        message: verifyMessage.value.trim()
-      }));
+      // Disable submit button during verification to avoid double click
+      const submitBtn = verifyForm.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.innerText = "驗證中...";
 
-      // Close modal
-      verifyModal.classList.remove('active');
+      fetch('/api/verify-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, code, token: receivedToken })
+      })
+      .then(res => res.json())
+      .then(data => {
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Verify & Download";
 
-      // Trigger pending download
-      if (pendingDownload) {
-        executeDownload(pendingDownload.title, pendingDownload.type);
-        pendingDownload = null;
-      }
+        if (data.error) {
+          alert("驗證失敗：" + data.error);
+          return;
+        }
+
+        // Save verification status
+        localStorage.setItem('download_verified', 'true');
+        localStorage.setItem('user_info', JSON.stringify({
+          email: verifyEmail.value.trim(),
+          name: verifyName.value.trim(),
+          company: verifyCompany.value.trim(),
+          country: verifyCountry.value.trim(),
+          message: verifyMessage.value.trim()
+        }));
+
+        // Close modal
+        verifyModal.classList.remove('active');
+
+        // Trigger pending download
+        if (pendingDownload) {
+          executeDownload(pendingDownload.title, pendingDownload.type);
+          pendingDownload = null;
+        }
+      })
+      .catch(err => {
+        console.error("Fetch verify-code error:", err);
+        alert("驗證連線失敗，請檢查網路連線。");
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Verify & Download";
+      });
     });
 
     // Interceptor: Check if verified first

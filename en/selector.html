@@ -6,7 +6,7 @@
   <title>解膠選擇器 | 丰泰技研股份有限公司 - 智慧推薦無損解UV膠劑型</title>
   
   <!-- SEO Meta Tags -->
-  <meta name="description" content="使用丰泰解UV膠劑智慧選擇器。依據膠體化學種類、知名膠水品牌、或撬起硬度，獲得推薦的丰泰解膠劑（L0-Gen-1 至 LC0-Gen-5）與標準排除實驗流程 SOP。">
+  <meta name="description" content="使用丰泰Smart UV Debonding Selector。依據膠體化學種類、知名膠水品牌、或撬起硬度，獲得推薦的丰泰解膠劑（L0-Gen-1 至 LC0-Gen-5）與標準排除實驗流程 SOP。">
   <meta name="keywords" content="解膠選擇器, 排除法SOP, UV膠溶解, Norland NOA, 樂泰解膠, 環氧樹脂拆解">
   <meta name="author" content="丰泰技研股份有限公司">
   
@@ -80,11 +80,36 @@
   <section style="background: linear-gradient(135deg, var(--sky-blue-light) 0%, var(--bg-primary) 100%); padding: 120px 24px 60px; text-align: center; border-bottom: 1px solid var(--border-light);">
     <div class="container" style="max-width: 800px;">
       <div class="section-tag">DECURED SELECTOR</div>
-      <h1 style="font-size: 2.8rem; font-weight: 800; margin-bottom: 16px; color: var(--text-main);">解UV膠劑智慧選擇器</h1>
-      <p style="font-size: 1.15rem; color: var(--text-muted); line-height: 1.6;">本工具將引導您透過 4 個層級步驟，依據您的專業了解程度，推薦適合的丰泰解膠劑型（L0-Gen-1 ~ LC0-Gen-5）與標準操作 SOP。</p>
+      <h1 style="font-size: 2.8rem; font-weight: 800; margin-bottom: 16px; color: var(--text-main);">Smart UV Debonding Selector</h1>
+      <p style="font-size: 1.15rem; color: var(--text-muted); line-height: 1.6;">This tool will guide you through 4 levels of steps to recommend the appropriate Fort debonding formula (L0-Gen-1 to LC0-Gen-5) and standard operating SOP based on your expertise.</p>
       <div class="result-warning" style="margin: 24px auto 0; max-width: 650px; background-color: rgba(245, 158, 11, 0.08); border-color: rgba(245, 158, 11, 0.3); color: #d97706; display: inline-flex; align-items: center; gap: 12px; padding: 12px 20px; border-radius: 12px; text-align: left;">
         <i class="fa-solid fa-triangle-exclamation" style="color: #d97706; font-size: 1.2rem; margin-top: 0; flex-shrink: 0;"></i>
-        <span style="font-weight: 700; font-size: 0.95rem; line-height: 1.4;">專業提醒：冰凍三尺，非一日之寒（膠體固化過程）；解膠亦非片刻之功。</span>
+        <span style="font-weight: 700; font-size: 0.95rem; line-height: 1.4;">Professional Notice: It takes time for adhesives to cure, and debonding is not an instant process.</span>
+      </div>
+
+      <!-- Premium Audio Guide Player -->
+      <div class="audio-guide-player" style="margin: 24px auto 0; max-width: 650px; background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 16px; padding: 16px 20px; display: flex; align-items: center; gap: 16px; box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05); text-align: left;">
+        <!-- Play/Pause Button -->
+        <button id="audio-play-btn" style="width: 48px; height: 48px; border-radius: 50%; border: none; background: linear-gradient(135deg, var(--sky-blue) 0%, var(--sky-blue-hover) 100%); color: #ffffff; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3); transition: all 0.2s ease; flex-shrink: 0;" aria-label="Play Audio Guide">
+          <i class="fa-solid fa-play" style="font-size: 1.2rem; margin-left: 2px;" id="play-icon"></i>
+        </button>
+        
+        <!-- Audio Info & Progress -->
+        <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 6px; min-width: 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+              💡 Audio Guide: How to choose the right debonding agent & correct SOP
+            </span>
+            <span id="audio-time" style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); font-family: monospace;">00:00 / 00:00</span>
+          </div>
+          <!-- Progress Bar -->
+          <div id="audio-progress-container" style="height: 6px; background: rgba(0, 0, 0, 0.08); border-radius: 3px; cursor: pointer; position: relative;">
+            <div id="audio-progress-bar" style="width: 0%; height: 100%; background: var(--sky-blue); border-radius: 3px; transition: width 0.1s linear;"></div>
+          </div>
+        </div>
+        
+        <!-- Hidden Audio Element -->
+        <audio id="selector-audio" src="../audio/selector-guide.mp3" preload="metadata"></audio>
       </div>
     </div>
   </section>
@@ -105,29 +130,29 @@
             <div class="selector-nav-item active" data-step="1">
               <span class="selector-nav-num">1</span>
               <div>
-                Level 1: 膠體化學種類
-                <span style="display: block; font-size: 0.75rem; font-weight: 500; color: var(--text-light); margin-top: 2px;">適合具備化學背景的專業客戶</span>
+                Level 1: Adhesive Chemical Type
+                <span style="display: block; font-size: 0.75rem; font-weight: 500; color: var(--text-light); margin-top: 2px;">Suitable for professional clients with a chemistry background</span>
               </div>
             </div>
             <div class="selector-nav-item" data-step="2">
               <span class="selector-nav-num">2</span>
               <div>
-                Level 2: 膠體類似品牌
-                <span style="display: block; font-size: 0.75rem; font-weight: 500; color: var(--text-light); margin-top: 2px;">適合已知原有膠水型號的客戶</span>
+                Level 2: Similar Adhesive Brands
+                <span style="display: block; font-size: 0.75rem; font-weight: 500; color: var(--text-light); margin-top: 2px;">Suitable for clients who know the original adhesive model</span>
               </div>
             </div>
             <div class="selector-nav-item" data-step="3">
               <span class="selector-nav-num">3</span>
               <div>
-                Level 3: 膠體硬化硬度
-                <span style="display: block; font-size: 0.75rem; font-weight: 500; color: var(--text-light); margin-top: 2px;">適合藉由物理撬起檢測的客戶</span>
+                Level 3: Cured Adhesive Hardness
+                <span style="display: block; font-size: 0.75rem; font-weight: 500; color: var(--text-light); margin-top: 2px;">Suitable for clients testing via physical prying</span>
               </div>
             </div>
             <div class="selector-nav-item" data-step="4">
               <span class="selector-nav-num">4</span>
               <div>
-                Level 4: 標準測試包 SOP
-                <span style="display: block; font-size: 0.75rem; font-weight: 500; color: var(--text-light); margin-top: 2px;">若上述皆無法分辨，進行排除排除實驗</span>
+                Level 4: Standard Test Kit SOP
+                <span style="display: block; font-size: 0.75rem; font-weight: 500; color: var(--text-light); margin-top: 2px;">If none of the above are identifiable, proceed with exclusion experiments</span>
               </div>
             </div>
           </div>
@@ -446,5 +471,68 @@
 
   <!-- Core JavaScript -->
   <script src="../js/main.js"></script>
+  <script>
+    // Audio Player Control Logic
+    const audio = document.getElementById('selector-audio');
+    const playBtn = document.getElementById('audio-play-btn');
+    const playIcon = document.getElementById('play-icon');
+    const timeDisplay = document.getElementById('audio-time');
+    const progressContainer = document.getElementById('audio-progress-container');
+    const progressBar = document.getElementById('audio-progress-bar');
+
+    function formatTime(secs) {
+      if (isNaN(secs) || !isFinite(secs)) return '00:00';
+      const minutes = Math.floor(secs / 60);
+      const seconds = Math.floor(secs % 60);
+      return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    playBtn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play().then(() => {
+          playIcon.className = 'fa-solid fa-pause';
+          playIcon.style.marginLeft = '0px';
+        }).catch(err => {
+          console.error("Audio playback failed:", err);
+          alert("Audio guide is loading or not found. Please confirm that 'audio/selector-guide.mp3' is placed in your project directory.");
+        });
+      } else {
+        audio.pause();
+        playIcon.className = 'fa-solid fa-play';
+        playIcon.style.marginLeft = '2px';
+      }
+    });
+
+    audio.addEventListener('loadedmetadata', () => {
+      timeDisplay.textContent = `00:00 / ${formatTime(audio.duration)}`;
+    });
+
+    // Fallback if metadata loads slowly
+    if (audio.readyState >= 1) {
+      timeDisplay.textContent = `00:00 / ${formatTime(audio.duration)}`;
+    }
+
+    audio.addEventListener('timeupdate', () => {
+      if (audio.duration) {
+        const percent = (audio.currentTime / audio.duration) * 100;
+        progressBar.style.width = `${percent}%`;
+        timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+      }
+    });
+
+    audio.addEventListener('ended', () => {
+      playIcon.className = 'fa-solid fa-play';
+      playIcon.style.marginLeft = '2px';
+      progressBar.style.width = '0%';
+    });
+
+    progressContainer.addEventListener('click', (e) => {
+      const rect = progressContainer.getBoundingClientRect();
+      const pos = (e.clientX - rect.left) / rect.width;
+      if (audio.duration) {
+        audio.currentTime = pos * audio.duration;
+      }
+    });
+  </script>
 </body>
 </html>

@@ -86,6 +86,31 @@
         <i class="fa-solid fa-triangle-exclamation" style="color: #d97706; font-size: 1.2rem; margin-top: 0; flex-shrink: 0;"></i>
         <span style="font-weight: 700; font-size: 0.95rem; line-height: 1.4;">專業提醒：冰凍三尺，非一日之寒（膠體固化過程）；解膠亦非片刻之功。</span>
       </div>
+
+      <!-- Premium Audio Guide Player -->
+      <div class="audio-guide-player" style="margin: 24px auto 0; max-width: 650px; background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 16px; padding: 16px 20px; display: flex; align-items: center; gap: 16px; box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05); text-align: left;">
+        <!-- Play/Pause Button -->
+        <button id="audio-play-btn" style="width: 48px; height: 48px; border-radius: 50%; border: none; background: linear-gradient(135deg, var(--sky-blue) 0%, var(--sky-blue-hover) 100%); color: #ffffff; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3); transition: all 0.2s ease; flex-shrink: 0;" aria-label="Play Audio Guide">
+          <i class="fa-solid fa-play" style="font-size: 1.2rem; margin-left: 2px;" id="play-icon"></i>
+        </button>
+        
+        <!-- Audio Info & Progress -->
+        <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 6px; min-width: 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+              💡 語音導覽：如何選擇合適的解膠劑與正確操作 SOP
+            </span>
+            <span id="audio-time" style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); font-family: monospace;">00:00 / 00:00</span>
+          </div>
+          <!-- Progress Bar -->
+          <div id="audio-progress-container" style="height: 6px; background: rgba(0, 0, 0, 0.08); border-radius: 3px; cursor: pointer; position: relative;">
+            <div id="audio-progress-bar" style="width: 0%; height: 100%; background: var(--sky-blue); border-radius: 3px; transition: width 0.1s linear;"></div>
+          </div>
+        </div>
+        
+        <!-- Hidden Audio Element -->
+        <audio id="selector-audio" src="audio/selector-guide.mp3" preload="metadata"></audio>
+      </div>
     </div>
   </section>
 
@@ -446,5 +471,68 @@
 
   <!-- Core JavaScript -->
   <script src="js/main.js"></script>
+  <script>
+    // Audio Player Control Logic
+    const audio = document.getElementById('selector-audio');
+    const playBtn = document.getElementById('audio-play-btn');
+    const playIcon = document.getElementById('play-icon');
+    const timeDisplay = document.getElementById('audio-time');
+    const progressContainer = document.getElementById('audio-progress-container');
+    const progressBar = document.getElementById('audio-progress-bar');
+
+    function formatTime(secs) {
+      if (isNaN(secs) || !isFinite(secs)) return '00:00';
+      const minutes = Math.floor(secs / 60);
+      const seconds = Math.floor(secs % 60);
+      return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    playBtn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play().then(() => {
+          playIcon.className = 'fa-solid fa-pause';
+          playIcon.style.marginLeft = '0px';
+        }).catch(err => {
+          console.error("Audio playback failed:", err);
+          alert("語音導覽檔加載中/未尋獲，請確認 'audio/selector-guide.mp3' 是否已放至網頁目錄資料夾中。");
+        });
+      } else {
+        audio.pause();
+        playIcon.className = 'fa-solid fa-play';
+        playIcon.style.marginLeft = '2px';
+      }
+    });
+
+    audio.addEventListener('loadedmetadata', () => {
+      timeDisplay.textContent = `00:00 / ${formatTime(audio.duration)}`;
+    });
+
+    // Fallback if metadata loads slowly
+    if (audio.readyState >= 1) {
+      timeDisplay.textContent = `00:00 / ${formatTime(audio.duration)}`;
+    }
+
+    audio.addEventListener('timeupdate', () => {
+      if (audio.duration) {
+        const percent = (audio.currentTime / audio.duration) * 100;
+        progressBar.style.width = `${percent}%`;
+        timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+      }
+    });
+
+    audio.addEventListener('ended', () => {
+      playIcon.className = 'fa-solid fa-play';
+      playIcon.style.marginLeft = '2px';
+      progressBar.style.width = '0%';
+    });
+
+    progressContainer.addEventListener('click', (e) => {
+      const rect = progressContainer.getBoundingClientRect();
+      const pos = (e.clientX - rect.left) / rect.width;
+      if (audio.duration) {
+        audio.currentTime = pos * audio.duration;
+      }
+    });
+  </script>
 </body>
 </html>
